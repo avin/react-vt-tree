@@ -1,0 +1,6 @@
+.root{
+    width: 200px;
+    height: 400px;
+    border: 10px solid #137CBD;
+    box-sizing: border-box;
+}

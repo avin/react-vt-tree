@@ -3,7 +3,9 @@
     "version": "0.0.0",
     "description": "...",
     "author": "Avin Grape <carcinogen75@gmail.com> (https://github.com/avin/)",
-    "contributors": ["Avin Grape <carcinogen75@gmail.com> (https://github.com/avin/)"],
+    "contributors": [
+        "Avin Grape <carcinogen75@gmail.com> (https://github.com/avin/)"
+    ],
     "license": "MIT",
     "homepage": "https://github.com/avin/react-vt-tree",
     "repository": {
@@ -16,10 +18,19 @@
     "engines": {
         "node": ">8.0.0"
     },
-    "keywords": ["react", "reactjs", "tree", "virtualized"],
+    "keywords": [
+        "react",
+        "reactjs",
+        "tree",
+        "virtualized"
+    ],
     "main": "dist/index.cjs.js",
     "module": "dist/index.esm.js",
-    "files": ["dist", "src/*.js", "README.md"],
+    "files": [
+        "dist",
+        "src/*.js",
+        "README.md"
+    ],
     "scripts": {
         "build": "rimraf dist && mkdir dist && yarn build:flow && yarn build:source",
         "build:demo": "build-storybook -o demo",
@@ -39,18 +50,25 @@
         "test:watch": "react-scripts test --env=jsdom"
     },
     "lint-staged": {
-        "{website,src}/**/*.{js,json,css}": ["prettier --write", "git add"],
+        "{website,src}/**/*.{js,json,css}": [
+            "prettier --write",
+            "git add"
+        ],
         "**/*.js": "eslint --max-warnings 0"
     },
     "dependencies": {
         "@babel/runtime": "^7.0.0",
-        "react-window": "^1.2.4"
+        "faker": "^4.1.0",
+        "memoize-one": "^4.0.2",
+        "react-window": "^1.2.4",
+        "shortid": "^2.2.14"
     },
     "peerDependencies": {
         "react": "^15.0.0 || ^16.0.0",
         "react-dom": "^15.0.0 || ^16.0.0"
     },
     "devDependencies": {
+        "@avinlab/react-size-me": "^1.1.5",
         "@babel/core": "^7.0.0",
         "@babel/plugin-proposal-class-properties": "^7.0.0",
         "@babel/plugin-transform-runtime": "^7.0.0",
