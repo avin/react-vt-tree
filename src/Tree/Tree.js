@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import memoize from 'memoize-one';
 import TreeItem from '../TreeItem';
 import { FixedSizeList as List } from 'react-window';
+import NodeCollapser from '../NodeCollapser/NodeCollapser';
+import NodeExpander from '../NodeExpander/NodeExpander';
+import NodeIcon from '../NodeIcon/NodeIcon';
 
 const getItemData = memoize(
     (
@@ -15,6 +18,9 @@ const getItemData = memoize(
         onNodeContextMenu,
         onNodeDoubleClick,
         onNodeExpand,
+        nodeExpanderComponent,
+        nodeCollapserComponent,
+        nodeIconComponent,
         ...additionalData
     ) => ({
         items,
@@ -26,6 +32,9 @@ const getItemData = memoize(
         onNodeContextMenu,
         onNodeDoubleClick,
         onNodeExpand,
+        nodeExpanderComponent,
+        nodeCollapserComponent,
+        nodeIconComponent,
         additionalData,
     })
 );
@@ -56,16 +65,16 @@ export default class Tree extends React.PureComponent {
         ).isRequired,
 
         /** Selector to get expanded status of node item */
-        isNodeExpandedSelector: PropTypes.func,
+        isNodeExpandedSelector: PropTypes.func.isRequired,
 
         /** Selector to get child-nodes */
-        nodeChildrenSelector: PropTypes.func,
+        nodeChildrenSelector: PropTypes.func.isRequired,
 
         /** Selector to determine children presence */
-        hasChildItemsSelector: PropTypes.func,
+        hasChildItemsSelector: PropTypes.func.isRequired,
 
         /** Selector to get first level items (with no parents) */
-        firstLevelItemsSelector: PropTypes.func,
+        firstLevelItemsSelector: PropTypes.func.isRequired,
 
         /** Padding of 1x depth level */
         levelPadding: PropTypes.number,
@@ -84,22 +93,33 @@ export default class Tree extends React.PureComponent {
 
         /** onNodeExpand handler */
         onNodeExpand: PropTypes.func,
+
+        /** nodeExpanderComponent */
+        nodeExpanderComponent: PropTypes.func,
+
+        /** nodeCollapserComponent */
+        nodeCollapserComponent: PropTypes.func,
+
+        /** nodeIconComponent */
+        nodeIconComponent: PropTypes.func,
+
+        /** Height of tree row */
+        itemHeight: PropTypes.number,
     };
 
     static defaultProps = {
         style: {},
-        isNodeExpandedSelector: nodeItem => nodeItem.isExpanded,
-        nodeChildrenSelector: nodeItem => nodeItem.children,
-        hasChildItemsSelector: nodeItem => nodeItem.children && nodeItem.children.length,
-        firstLevelItemsSelector: nodes => nodes,
         levelPadding: 20,
+        nodeExpanderComponent: NodeExpander,
+        nodeCollapserComponent: NodeCollapser,
+        nodeIconComponent: NodeIcon,
+        itemHeight: 25,
     };
 
     _createList(nodes, depth = 0) {
         const { nodeChildrenSelector, isNodeExpandedSelector } = this.props;
-        let resultList = [];
 
-        nodes.forEach(node => {
+        return nodes.reduce((resultList, node) => {
             node = { ...node, _depth: depth };
             resultList.push(node);
             if (isNodeExpandedSelector(node)) {
@@ -108,9 +128,8 @@ export default class Tree extends React.PureComponent {
                     resultList = [...resultList, ...this._createList(childNodes, depth + 1)];
                 }
             }
-        });
-
-        return resultList;
+            return resultList;
+        }, []);
     }
 
     render() {
@@ -129,6 +148,10 @@ export default class Tree extends React.PureComponent {
             isNodeExpandedSelector,
             hasChildItemsSelector,
             firstLevelItemsSelector,
+            nodeExpanderComponent,
+            nodeCollapserComponent,
+            nodeIconComponent,
+            itemHeight,
         } = this.props;
         const items = this._createList(firstLevelItemsSelector(nodes));
 
@@ -141,12 +164,15 @@ export default class Tree extends React.PureComponent {
             onNodeCollapse,
             onNodeContextMenu,
             onNodeDoubleClick,
-            onNodeExpand
+            onNodeExpand,
+            nodeExpanderComponent,
+            nodeCollapserComponent,
+            nodeIconComponent
         );
 
         return (
             <div className={className} style={style}>
-                <List height={height} itemCount={items.length} itemData={itemData} itemSize={35} width={width}>
+                <List height={height} itemCount={items.length} itemData={itemData} itemSize={itemHeight} width={width}>
                     {TreeItem}
                 </List>
             </div>

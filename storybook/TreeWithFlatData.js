@@ -3,6 +3,7 @@ import treeData from './utils/flatTreeData';
 import SizeMe from '@avinlab/react-size-me';
 import Tree from '../src/Tree';
 import JSONTree from 'react-json-tree';
+import jsonViewerTheme from './utils/jsonViewerTheme';
 
 export default class TreeWithFlatData extends React.Component {
     state = {
@@ -68,9 +69,8 @@ export default class TreeWithFlatData extends React.Component {
                         )}
                     </SizeMe>
                 </div>
-
                 <h2>Content data structure:</h2>
-                <JSONTree data={treeData} />
+                <JSONTree data={treeData} theme={jsonViewerTheme} />
             </div>
         );
     }

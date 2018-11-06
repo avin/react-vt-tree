@@ -8,20 +8,17 @@
     display: inline-block;
     min-width: 20px;
     min-height: 20px;
-    background-color: yellow;
-    margin: 0 5px;
+    margin-left: 5px;
 }
 
-.VTTree__ItemIcon-collapse {
-    background-color: orange;
-}
+.VTTree__ItemIcon-collapse,
 .VTTree__ItemIcon-expand {
-    background-color: greenyellow;
+    cursor: pointer;
 }
 
-.VTTree__ItemContent{
+.VTTree__ItemContent {
     align-self: center;
-
+    width: 100%;
     overflow: hidden;
     padding: 0 0.5em;
     white-space: nowrap;

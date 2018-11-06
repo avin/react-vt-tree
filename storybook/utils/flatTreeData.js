@@ -2,10 +2,10 @@ let nounce = 1;
 function generateNodes(depth, parentId) {
     let items = [];
     for (let i = 0; i < 10; i += 1) {
-        const id = String(nounce);
+        const id = 'i' + nounce;
         items.push({
             id,
-            content: `Item ${nounce++}`,
+            content: `Node ${nounce++}`,
             parentId,
         });
         if (depth < 3) {

@@ -1,8 +1,9 @@
 import React from 'react';
-import treeNodes, {count as treeNodesSize} from './utils/structuredTreeData';
+import treeNodes, { count as treeNodesSize } from './utils/structuredTreeData';
 import SizeMe from '@avinlab/react-size-me';
 import Tree from '../src/Tree';
 import JSONTree from 'react-json-tree';
+import jsonViewerTheme from './utils/jsonViewerTheme';
 
 export default class TreeWithStructuredData extends React.Component {
     state = {
@@ -62,14 +63,14 @@ export default class TreeWithStructuredData extends React.Component {
                                 nodeChildrenSelector={nodeItem => this.getChildNodes(nodeItem)}
                                 hasChildItemsSelector={nodeItem => nodeItem.children && nodeItem.children.length}
                                 isNodeExpandedSelector={nodeItem => expandedNodes.has(nodeItem.id)}
+                                firstLevelItemsSelector={nodes => nodes}
                                 additionalData={{ expandedNodes }}
                             />
                         )}
                     </SizeMe>
                 </div>
-
                 <h2>Content data structure:</h2>
-                <JSONTree data={treeNodes} />
+                <JSONTree data={treeNodes} theme={jsonViewerTheme} />
             </div>
         );
     }

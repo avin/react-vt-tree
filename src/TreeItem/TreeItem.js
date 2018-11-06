@@ -17,26 +17,22 @@ export default class TreeItem extends React.Component {
 
     renderExpander(nodeItem) {
         const { data } = this.props;
-        const { isNodeExpandedSelector, hasChildItemsSelector } = data;
+        const {
+            isNodeExpandedSelector,
+            hasChildItemsSelector,
+            nodeExpanderComponent: Expander,
+            nodeCollapserComponent: Collapser,
+            nodeIconComponent: Icon,
+        } = data;
 
         if (!hasChildItemsSelector(nodeItem)) {
-            return <div className="VTTree__ItemIcon" />;
+            return <Icon node={nodeItem} />;
         }
 
         if (isNodeExpandedSelector(nodeItem)) {
-            return (
-                <div
-                    className="VTTree__ItemIcon VTTree__ItemIcon-collapse"
-                    onClick={event => this.handleCollapseItem(nodeItem, event)}
-                />
-            );
+            return <Collapser onClick={event => this.handleCollapseItem(nodeItem, event)} />;
         }
-        return (
-            <div
-                className="VTTree__ItemIcon VTTree__ItemIcon-expand"
-                onClick={event => this.handleExpandItem(nodeItem, event)}
-            />
-        );
+        return <Expander onClick={event => this.handleExpandItem(nodeItem, event)} />;
     }
 
     render() {
