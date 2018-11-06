@@ -1,0 +1,29 @@
+.VTTree__TreeItem {
+    box-sizing: border-box;
+    display: flex;
+}
+
+.VTTree__ItemIcon {
+    align-self: center;
+    display: inline-block;
+    min-width: 20px;
+    min-height: 20px;
+    background-color: yellow;
+    margin: 0 5px;
+}
+
+.VTTree__ItemIcon-collapse {
+    background-color: orange;
+}
+.VTTree__ItemIcon-expand {
+    background-color: greenyellow;
+}
+
+.VTTree__ItemContent{
+    align-self: center;
+
+    overflow: hidden;
+    padding: 0 0.5em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

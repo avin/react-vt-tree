@@ -16,23 +16,41 @@ export default class TreeItem extends React.Component {
     };
 
     renderExpander(nodeItem) {
-        if (nodeItem.isExpanded) {
-            return <span onClick={event => this.handleCollapseItem(nodeItem, event)}>⯆</span>;
+        const { data } = this.props;
+        const { isNodeExpandedSelector, hasChildItemsSelector } = data;
+
+        if (!hasChildItemsSelector(nodeItem)) {
+            return <div className="VTTree__ItemIcon" />;
         }
-        return <span onClick={event => this.handleExpandItem(nodeItem, event)}>⯈</span>;
+
+        if (isNodeExpandedSelector(nodeItem)) {
+            return (
+                <div
+                    className="VTTree__ItemIcon VTTree__ItemIcon-collapse"
+                    onClick={event => this.handleCollapseItem(nodeItem, event)}
+                />
+            );
+        }
+        return (
+            <div
+                className="VTTree__ItemIcon VTTree__ItemIcon-expand"
+                onClick={event => this.handleExpandItem(nodeItem, event)}
+            />
+        );
     }
 
     render() {
         const { data, index, style } = this.props;
 
-        const { items } = data;
+        const { items, levelPadding } = data;
         const item = items[index];
 
-        //⯈⯆
         return (
-            <div style={{ ...style, paddingLeft: 20 * item._depth }}>
-                {item.childNodes && this.renderExpander(item)}
-                {item.content}
+            <div className="VTTree__TreeItem" style={{ ...style, paddingLeft: levelPadding * item._depth }}>
+                {this.renderExpander(item)}
+                <div className="VTTree__ItemContent" title={item.content}>
+                    {item.content}
+                </div>
             </div>
         );
     }

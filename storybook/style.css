@@ -1,6 +1,7 @@
-.root{
-    width: 200px;
+.treeContainer {
+    width: 250px;
     height: 400px;
-    border: 10px solid #137CBD;
+    border: 1px solid #137cbd;
     box-sizing: border-box;
 }
+

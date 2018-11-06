@@ -58,16 +58,15 @@
     },
     "dependencies": {
         "@babel/runtime": "^7.0.0",
-        "faker": "^4.1.0",
         "memoize-one": "^4.0.2",
-        "react-window": "^1.2.4",
-        "shortid": "^2.2.14"
+        "react-window": "^1.2.4"
     },
     "peerDependencies": {
         "react": "^15.0.0 || ^16.0.0",
         "react-dom": "^15.0.0 || ^16.0.0"
     },
     "devDependencies": {
+        "react-json-tree": "^0.11.0",
         "@avinlab/react-size-me": "^1.1.5",
         "@babel/core": "^7.0.0",
         "@babel/plugin-proposal-class-properties": "^7.0.0",
