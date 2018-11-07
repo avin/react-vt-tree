@@ -8,7 +8,7 @@ const NodeIcon = props => (
         viewBox="0 0 16 16"
         enableBackground="new 0 0 16 16"
         {...props}
-        className={classNames('VTTree__ItemIcon', props.className)}
+        className={classNames('VTTree__NodeIcon', props.className)}
     >
         <g>
             <circle fillRule="evenodd" clipRule="evenodd" cx="8" cy="8" r="3" />

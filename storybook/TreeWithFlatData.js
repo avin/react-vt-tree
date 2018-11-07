@@ -4,6 +4,7 @@ import SizeMe from '@avinlab/react-size-me';
 import Tree from '../src/Tree';
 import JSONTree from 'react-json-tree';
 import jsonViewerTheme from './utils/jsonViewerTheme';
+import { action } from '@storybook/addon-actions';
 
 export default class TreeWithFlatData extends React.Component {
     state = {
@@ -65,6 +66,9 @@ export default class TreeWithFlatData extends React.Component {
                                 hasChildItemsSelector={nodeItem => nodeItem.childIds && nodeItem.childIds.length}
                                 isNodeExpandedSelector={nodeItem => expandedNodes.has(nodeItem.id)}
                                 additionalData={{ expandedNodes }}
+                                onNodeClick={action('onNodeClick')}
+                                onNodeDoubleClick={action('onNodeDoubleClick')}
+                                onNodeContextMenu={action('onNodeContextMenu')}
                             />
                         )}
                     </SizeMe>

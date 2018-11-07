@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import memoize from 'memoize-one';
-import TreeItem from '../TreeItem';
+import TreeNode from '../TreeNode';
 import { FixedSizeList as List } from 'react-window';
 import NodeCollapser from '../NodeCollapser/NodeCollapser';
 import NodeExpander from '../NodeExpander/NodeExpander';
@@ -13,6 +13,10 @@ const getItemData = memoize(
         isNodeExpandedSelector,
         hasChildItemsSelector,
         levelPadding,
+        nodeClassName,
+        nodeStyle,
+        nodeContentClassName,
+        nodeContentStyle,
         onNodeClick,
         onNodeCollapse,
         onNodeContextMenu,
@@ -27,6 +31,10 @@ const getItemData = memoize(
         isNodeExpandedSelector,
         hasChildItemsSelector,
         levelPadding,
+        nodeClassName,
+        nodeStyle,
+        nodeContentClassName,
+        nodeContentStyle,
         onNodeClick,
         onNodeCollapse,
         onNodeContextMenu,
@@ -79,6 +87,18 @@ export default class Tree extends React.PureComponent {
         /** Padding of 1x depth level */
         levelPadding: PropTypes.number,
 
+        /** Node optional className string or generate function */
+        nodeClassName: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+
+        /** Node optional style object or generate function */
+        nodeStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+
+        /** Node content optional className string or generate function */
+        nodeContentClassName: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+
+        /** Node content optional style object or generate function */
+        nodeContentStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+
         /** onNodeClick handler */
         onNodeClick: PropTypes.func,
 
@@ -120,12 +140,12 @@ export default class Tree extends React.PureComponent {
         const { nodeChildrenSelector, isNodeExpandedSelector } = this.props;
 
         return nodes.reduce((resultList, node) => {
-            node = { ...node, _depth: depth };
+            node._depth = depth;
             resultList.push(node);
             if (isNodeExpandedSelector(node)) {
                 const childNodes = nodeChildrenSelector(node);
                 if (childNodes) {
-                    resultList = [...resultList, ...this._createList(childNodes, depth + 1)];
+                    resultList = resultList.concat(this._createList(childNodes, depth + 1));
                 }
             }
             return resultList;
@@ -140,6 +160,10 @@ export default class Tree extends React.PureComponent {
             className,
             style,
             levelPadding,
+            nodeClassName,
+            nodeStyle,
+            nodeContentClassName,
+            nodeContentStyle,
             onNodeClick,
             onNodeCollapse,
             onNodeContextMenu,
@@ -160,6 +184,10 @@ export default class Tree extends React.PureComponent {
             isNodeExpandedSelector,
             hasChildItemsSelector,
             levelPadding,
+            nodeClassName,
+            nodeStyle,
+            nodeContentClassName,
+            nodeContentStyle,
             onNodeClick,
             onNodeCollapse,
             onNodeContextMenu,
@@ -173,7 +201,7 @@ export default class Tree extends React.PureComponent {
         return (
             <div className={className} style={style}>
                 <List height={height} itemCount={items.length} itemData={itemData} itemSize={itemHeight} width={width}>
-                    {TreeItem}
+                    {TreeNode}
                 </List>
             </div>
         );

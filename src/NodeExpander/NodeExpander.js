@@ -8,7 +8,7 @@ const NodeExpander = props => (
         viewBox="0 0 16 16"
         enableBackground="new 0 0 16 16"
         {...props}
-        className={classNames('VTTree__ItemIcon VTTree__ItemIcon-expand', props.className)}
+        className={classNames('VTTree__NodeIcon VTTree__NodeIcon--expand', props.className)}
     >
         <g>
             <path

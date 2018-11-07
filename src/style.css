@@ -1,9 +1,9 @@
-.VTTree__TreeItem {
+.VTTree__Node {
     box-sizing: border-box;
     display: flex;
 }
 
-.VTTree__ItemIcon {
+.VTTree__NodeIcon {
     align-self: center;
     display: inline-block;
     min-width: 20px;
@@ -11,12 +11,12 @@
     margin-left: 5px;
 }
 
-.VTTree__ItemIcon-collapse,
-.VTTree__ItemIcon-expand {
+.VTTree__NodeIcon--collapse,
+.VTTree__NodeIcon--expand {
     cursor: pointer;
 }
 
-.VTTree__ItemContent {
+.VTTree__NodeContent {
     align-self: center;
     width: 100%;
     overflow: hidden;

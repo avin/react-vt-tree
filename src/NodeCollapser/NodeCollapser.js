@@ -8,7 +8,7 @@ const NodeCollapser = props => (
         viewBox="0 0 16 16"
         enableBackground="new 0 0 16 16"
         {...props}
-        className={classNames('VTTree__ItemIcon VTTree__ItemIcon-collapse', props.className)}
+        className={classNames('VTTree__NodeIcon VTTree__NodeIcon--collapse', props.className)}
     >
         <g>
             <path
