@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-const NodeIcon = ({ className, node, nodeDepth, nodeIndex, props }) => (
+const NodeIcon = ({ className, node, nodeDepth, nodeIndex, ...props }) => (
     <svg
         x="0px"
         y="0px"
