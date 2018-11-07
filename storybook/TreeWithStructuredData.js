@@ -11,15 +11,15 @@ export default class TreeWithStructuredData extends React.Component {
         expandedNodes: new Set(),
     };
 
-    handleNodeExpand = (treeNode, e) => {
+    handleNodeExpand = (e, {node}) => {
         let expandedNodes = new Set(this.state.expandedNodes);
-        expandedNodes.add(treeNode.id);
+        expandedNodes.add(node.id);
         this.setState({ expandedNodes });
     };
 
-    handleNodeCollapse = (treeNode, e) => {
+    handleNodeCollapse = (e, {node}) => {
         let expandedNodes = new Set(this.state.expandedNodes);
-        expandedNodes.delete(treeNode.id);
+        expandedNodes.delete(node.id);
         this.setState({ expandedNodes });
     };
 

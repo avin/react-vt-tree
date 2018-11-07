@@ -12,15 +12,15 @@ export default class TreeWithFlatData extends React.Component {
         expandedNodes: new Set(),
     };
 
-    handleNodeExpand = (treeNode, e) => {
+    handleNodeExpand = (e, { node }) => {
         let expandedNodes = new Set(this.state.expandedNodes);
-        expandedNodes.add(treeNode.id);
+        expandedNodes.add(node.id);
         this.setState({ expandedNodes });
     };
 
-    handleNodeCollapse = (treeNode, e) => {
+    handleNodeCollapse = (e, { node }) => {
         let expandedNodes = new Set(this.state.expandedNodes);
-        expandedNodes.delete(treeNode.id);
+        expandedNodes.delete(node.id);
         this.setState({ expandedNodes });
     };
 
@@ -33,10 +33,10 @@ export default class TreeWithFlatData extends React.Component {
         this.setState({ expandedNodes: new Set() });
     };
 
-    getChildNodes = nodeItem => {
+    getChildNodes = node => {
         let results = [];
-        nodeItem.childIds &&
-            nodeItem.childIds.forEach(childId => {
+        node.childIds &&
+            node.childIds.forEach(childId => {
                 results.push(treeData.nodes[treeData.nodesIndexes[childId]]);
             });
         if (results.length) {
@@ -65,10 +65,10 @@ export default class TreeWithFlatData extends React.Component {
                                 nodes={treeData.nodes}
                                 onNodeExpand={this.handleNodeExpand}
                                 onNodeCollapse={this.handleNodeCollapse}
-                                nodeChildrenSelector={nodeItem => this.getChildNodes(nodeItem)}
-                                firstLevelItemsSelector={items => items.filter(i => !i.parentId)}
-                                hasChildItemsSelector={nodeItem => nodeItem.childIds && nodeItem.childIds.length}
-                                isNodeExpandedSelector={nodeItem => expandedNodes.has(nodeItem.id)}
+                                nodeChildrenSelector={node => this.getChildNodes(node)}
+                                firstLevelItemsSelector={nodes => nodes.filter(i => !i.parentId)}
+                                hasChildItemsSelector={node => node.childIds && node.childIds.length}
+                                isNodeExpandedSelector={node => expandedNodes.has(node.id)}
                                 additionalData={{ expandedNodes }}
                                 onNodeClick={action('onNodeClick')}
                                 onNodeDoubleClick={action('onNodeDoubleClick')}

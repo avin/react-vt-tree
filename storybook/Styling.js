@@ -11,15 +11,15 @@ export default class Styling extends React.Component {
         expandedNodes: new Set(),
     };
 
-    handleNodeExpand = (treeNode, e) => {
+    handleNodeExpand = (e, { node }) => {
         let expandedNodes = new Set(this.state.expandedNodes);
-        expandedNodes.add(treeNode.id);
+        expandedNodes.add(node.id);
         this.setState({ expandedNodes });
     };
 
-    handleNodeCollapse = (treeNode, e) => {
+    handleNodeCollapse = (e, { node }) => {
         let expandedNodes = new Set(this.state.expandedNodes);
-        expandedNodes.delete(treeNode.id);
+        expandedNodes.delete(node.id);
         this.setState({ expandedNodes });
     };
 
@@ -127,9 +127,9 @@ export default class Styling extends React.Component {
                                         width={width}
                                         height={height}
                                         levelPadding={0}
-                                        nodeStyle={node => ({
-                                            backgroundColor: `rgba(0,0,0,${node._depth / 5})`,
-                                            color: node._depth > 2 ? '#FFF' : '#000',
+                                        nodeStyle={({nodeDepth}) => ({
+                                            backgroundColor: `rgba(0,0,0,${nodeDepth / 5})`,
+                                            color: nodeDepth > 2 ? '#FFF' : '#000',
                                         })}
                                     />
                                 )}

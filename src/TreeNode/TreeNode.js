@@ -1,21 +1,41 @@
 import React from 'react';
 import classNames from 'classnames';
 
-export default class TreeNode extends React.Component {
-    handleCollapseItem = (nodeItem, event) => {
+export default class TreeNode extends React.PureComponent {
+    handleClickIcon = event => {
         event.preventDefault();
-        const { data } = this.props;
-        const { onNodeCollapse } = data;
+        const { data, index } = this.props;
+        const { items, depthList, onNodeIconClick } = data;
+        const node = items[index];
+        const nodeDepth = depthList[index];
 
-        onNodeCollapse && onNodeCollapse(nodeItem, event);
+        const handlerParams = { node, nodeDepth, nodeIndex: index };
+
+        onNodeIconClick && onNodeIconClick(event, handlerParams);
     };
 
-    handleExpandItem = (nodeItem, event) => {
+    handleClickCollapser = event => {
         event.preventDefault();
-        const { data } = this.props;
-        const { onNodeExpand } = data;
+        const { data, index } = this.props;
+        const { items, depthList, onNodeCollapse } = data;
+        const node = items[index];
+        const nodeDepth = depthList[index];
 
-        onNodeExpand && onNodeExpand(nodeItem, event);
+        const handlerParams = { node, nodeDepth, nodeIndex: index };
+
+        onNodeCollapse && onNodeCollapse(event, handlerParams);
+    };
+
+    handleClickExpander = event => {
+        event.preventDefault();
+        const { data, index } = this.props;
+        const { items, depthList, onNodeExpand } = data;
+        const node = items[index];
+        const nodeDepth = depthList[index];
+
+        const handlerParams = { node, nodeDepth, nodeIndex: index };
+
+        onNodeExpand && onNodeExpand(event, handlerParams);
     };
 
     renderExpander() {
@@ -28,16 +48,17 @@ export default class TreeNode extends React.Component {
             nodeCollapserComponent: Collapser,
             nodeIconComponent: Icon,
         } = data;
-        const nodeItem = items[index];
+        const node = items[index];
 
-        if (!hasChildItemsSelector(nodeItem)) {
-            return <Icon node={nodeItem} />;
+        if (!hasChildItemsSelector(node)) {
+            return <Icon node={node} onClick={this.handleClickIcon} />;
         }
 
-        if (isNodeExpandedSelector(nodeItem)) {
-            return <Collapser node={nodeItem} onClick={event => this.handleCollapseItem(nodeItem, event)} />;
+        if (isNodeExpandedSelector(node)) {
+            return <Collapser node={node} onClick={this.handleClickCollapser} />;
         }
-        return <Expander node={nodeItem} onClick={event => this.handleExpandItem(nodeItem, event)} />;
+
+        return <Expander node={node} onClick={this.handleClickExpander} />;
     }
 
     renderContent() {
@@ -45,18 +66,20 @@ export default class TreeNode extends React.Component {
 
         const {
             items,
+            depthList,
             onNodeClick,
             onNodeDoubleClick,
             onNodeContextMenu,
             nodeContentClassName,
             nodeContentStyle,
         } = data;
-        const nodeItem = items[index];
+        const node = items[index];
+        const nodeDepth = depthList[index];
 
         let className;
         if (nodeContentClassName) {
             if (typeof nodeContentClassName === 'function') {
-                className = nodeContentClassName(nodeItem);
+                className = nodeContentClassName({ node, nodeDepth, nodeIndex: index });
             } else {
                 className = nodeContentClassName;
             }
@@ -65,22 +88,24 @@ export default class TreeNode extends React.Component {
         let optionalStyle = {};
         if (nodeContentStyle) {
             if (typeof nodeContentStyle === 'function') {
-                optionalStyle = nodeContentStyle(nodeItem) || {};
+                optionalStyle = nodeContentStyle({ node, nodeDepth, nodeIndex: index }) || {};
             } else {
                 optionalStyle = nodeContentStyle;
             }
         }
 
+        const handlerParams = { node, nodeDepth, nodeIndex: index };
+
         return (
             <div
                 className={classNames('VTTree__NodeContent', className)}
                 style={optionalStyle}
-                title={nodeItem.content}
-                onClick={onNodeClick && (event => onNodeClick(nodeItem, event))}
-                onDoubleClick={onNodeDoubleClick && (event => onNodeDoubleClick(nodeItem, event))}
-                onContextMenu={onNodeContextMenu && (event => onNodeContextMenu(nodeItem, event))}
+                title={node.content}
+                onClick={onNodeClick && (event => onNodeClick(event, handlerParams))}
+                onDoubleClick={onNodeDoubleClick && (event => onNodeDoubleClick(event, handlerParams))}
+                onContextMenu={onNodeContextMenu && (event => onNodeContextMenu(event, handlerParams))}
             >
-                {nodeItem.content}
+                {node.content}
             </div>
         );
     }
@@ -88,13 +113,14 @@ export default class TreeNode extends React.Component {
     render() {
         const { data, index, style } = this.props;
 
-        const { items, levelPadding, nodeClassName, nodeStyle } = data;
-        const nodeItem = items[index];
+        const { items, depthList, levelPadding, nodeClassName, nodeStyle } = data;
+        const node = items[index];
+        const nodeDepth = depthList[index];
 
         let className;
         if (nodeClassName) {
             if (typeof nodeClassName === 'function') {
-                className = nodeClassName(nodeItem);
+                className = nodeClassName({ node, nodeDepth, nodeIndex: index });
             } else {
                 className = nodeClassName;
             }
@@ -103,7 +129,7 @@ export default class TreeNode extends React.Component {
         let optionalStyle = {};
         if (nodeStyle) {
             if (typeof nodeStyle === 'function') {
-                optionalStyle = nodeStyle(nodeItem) || {};
+                optionalStyle = nodeStyle({ node, nodeDepth, nodeIndex: index }) || {};
             } else {
                 optionalStyle = nodeStyle;
             }
@@ -112,7 +138,7 @@ export default class TreeNode extends React.Component {
         return (
             <div
                 className={classNames('VTTree__Node', className)}
-                style={{ ...optionalStyle, ...style, paddingLeft: levelPadding * nodeItem._depth }}
+                style={{ ...optionalStyle, ...style, paddingLeft: levelPadding * nodeDepth }}
             >
                 {this.renderExpander()}
 

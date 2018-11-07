@@ -10,6 +10,7 @@ import NodeIcon from '../NodeIcon/NodeIcon';
 const getItemData = memoize(
     (
         items,
+        depthList,
         isNodeExpandedSelector,
         hasChildItemsSelector,
         levelPadding,
@@ -19,6 +20,7 @@ const getItemData = memoize(
         nodeContentStyle,
         onNodeClick,
         onNodeCollapse,
+        onNodeIconClick,
         onNodeContextMenu,
         onNodeDoubleClick,
         onNodeExpand,
@@ -28,6 +30,7 @@ const getItemData = memoize(
         ...additionalData
     ) => ({
         items,
+        depthList,
         isNodeExpandedSelector,
         hasChildItemsSelector,
         levelPadding,
@@ -37,6 +40,7 @@ const getItemData = memoize(
         nodeContentStyle,
         onNodeClick,
         onNodeCollapse,
+        onNodeIconClick,
         onNodeContextMenu,
         onNodeDoubleClick,
         onNodeExpand,
@@ -58,19 +62,7 @@ export default class Tree extends React.PureComponent {
         className: PropTypes.string,
 
         /** Tree node items */
-        nodes: PropTypes.arrayOf(
-            PropTypes.shape({
-                childNodes: PropTypes.arrayOf(PropTypes.any),
-
-                className: PropTypes.string,
-
-                contentRef: PropTypes.string,
-
-                content: PropTypes.node,
-
-                data: PropTypes.object,
-            })
-        ).isRequired,
+        nodes: PropTypes.any.isRequired,
 
         /** Selector to get expanded status of node item */
         isNodeExpandedSelector: PropTypes.func.isRequired,
@@ -99,28 +91,31 @@ export default class Tree extends React.PureComponent {
         /** Node content optional style object or generate function */
         nodeContentStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
 
-        /** onNodeClick handler */
+        /** On node click handler */
         onNodeClick: PropTypes.func,
 
-        /** onNodeCollapse handler */
+        /** On node collapse handler */
         onNodeCollapse: PropTypes.func,
 
-        /** onNodeContextMenu handler */
+        /** On click Node Icon handler */
+        onNodeIconClick: PropTypes.func,
+
+        /** On node context menu handler */
         onNodeContextMenu: PropTypes.func,
 
-        /** onNodeDoubleClick handler */
+        /** On node double click handler */
         onNodeDoubleClick: PropTypes.func,
 
-        /** onNodeExpand handler */
+        /** On node expand handler */
         onNodeExpand: PropTypes.func,
 
-        /** nodeExpanderComponent */
+        /** Node Expander component */
         nodeExpanderComponent: PropTypes.func,
 
-        /** nodeCollapserComponent */
+        /** Node Collapser component */
         nodeCollapserComponent: PropTypes.func,
 
-        /** nodeIconComponent */
+        /** Node icon component */
         nodeIconComponent: PropTypes.func,
 
         /** Height of tree row */
@@ -131,6 +126,12 @@ export default class Tree extends React.PureComponent {
 
         /** Scroll offset for initial tree list render */
         initialScrollOffset: PropTypes.number,
+
+        /**
+         * Any other react-window list props
+         * @see https://react-window.now.sh/#/api/FixedSizeList
+         **/
+        listProps: PropTypes.object,
     };
 
     static defaultProps = {
@@ -141,24 +142,33 @@ export default class Tree extends React.PureComponent {
         nodeIconComponent: NodeIcon,
         itemHeight: 25,
         initialScrollOffset: 0,
+        listProps: {},
     };
 
-    _createList(nodes, depth = 0) {
+    _createList(nodes) {
         const { nodeChildrenSelector, isNodeExpandedSelector } = this.props;
 
-        this._list = nodes.reduce((resultList, node) => {
-            node._depth = depth;
-            resultList.push(node);
-            if (isNodeExpandedSelector(node)) {
-                const childNodes = nodeChildrenSelector(node);
-                if (childNodes) {
-                    resultList = resultList.concat(this._createList(childNodes, depth + 1));
-                }
-            }
-            return resultList;
-        }, []);
+        let list = [];
+        let depthList = [];
 
-        return this._list;
+        const fillList = (nodes, depth) => {
+            nodes.forEach(node => {
+                depthList.push(depth);
+                list.push(node);
+                if (isNodeExpandedSelector(node)) {
+                    const childNodes = nodeChildrenSelector(node);
+                    if (childNodes) {
+                        fillList(childNodes, depth + 1);
+                    }
+                }
+            });
+        };
+        fillList(nodes, 0);
+
+        this._list = list;
+        this._depthList = depthList;
+
+        return [this._list, this._depthList];
     }
 
     scrollToNode(findIndexFunction) {
@@ -184,6 +194,7 @@ export default class Tree extends React.PureComponent {
             nodeContentStyle,
             onNodeClick,
             onNodeCollapse,
+            onNodeIconClick,
             onNodeContextMenu,
             onNodeDoubleClick,
             onNodeExpand,
@@ -195,11 +206,13 @@ export default class Tree extends React.PureComponent {
             nodeIconComponent,
             itemHeight,
             initialScrollOffset,
+            listProps,
         } = this.props;
-        const items = this._createList(firstLevelItemsSelector(nodes));
+        const [items, depthList] = this._createList(firstLevelItemsSelector(nodes));
 
         const itemData = getItemData(
             items,
+            depthList,
             isNodeExpandedSelector,
             hasChildItemsSelector,
             levelPadding,
@@ -209,6 +222,7 @@ export default class Tree extends React.PureComponent {
             nodeContentStyle,
             onNodeClick,
             onNodeCollapse,
+            onNodeIconClick,
             onNodeContextMenu,
             onNodeDoubleClick,
             onNodeExpand,
@@ -228,6 +242,7 @@ export default class Tree extends React.PureComponent {
                 className={className}
                 style={style}
                 initialScrollOffset={initialScrollOffset}
+                {...listProps}
             >
                 {TreeNode}
             </List>

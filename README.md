@@ -20,23 +20,14 @@ npm install --save react-vt-tree
 
 ## Features
 
--   Super mega fast! It's based on super fast virtulized-lists library [react-window](https://github.com/bvaughn/react-window)
--   Super customizable! Any icons, any classNames or styles for ALL included tags!
--   Content structure **INDEPENDENT**! Write your personal selectors to get children and expanded statuses! You
-    can use flat or structured data arrays or Immutable iterable objects or what ever you want.
-
-## Usage
-
-```js
-import React from 'react';
-import Tree from 'react-vt-tree';
-
-const DemoComponent = () => <Tree />;
-```
+-   :zap: Super mega fast! It's based on super fast virtulized-lists library [react-window](https://github.com/bvaughn/react-window)
+-   :art: Super customizable! Any components, any classNames, any styles for _ALL_ included elements!
+-   :hamburger: Content structure **INDEPENDENT**! Write your personal selectors to get children and expanded statuses! You
+    can use flat or structured data arrays or [Immutable.Lists](https://facebook.github.io/immutable-js/docs/#/List).
 
 ## API
 
-`...`
+:construction: _Coming soon..._ :construction:
 
 ## License
 
