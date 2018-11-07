@@ -42,6 +42,7 @@ export default class TreeNode extends React.PureComponent {
         const { data, index } = this.props;
         const {
             items,
+            depthList,
             isNodeExpandedSelector,
             hasChildItemsSelector,
             nodeExpanderComponent: Expander,
@@ -49,16 +50,19 @@ export default class TreeNode extends React.PureComponent {
             nodeIconComponent: Icon,
         } = data;
         const node = items[index];
+        const nodeDepth = depthList[index];
 
         if (!hasChildItemsSelector(node)) {
-            return <Icon node={node} onClick={this.handleClickIcon} />;
+            return <Icon node={node} nodeDepth={nodeDepth} nodeIndex={index} onClick={this.handleClickIcon} />;
         }
 
         if (isNodeExpandedSelector(node)) {
-            return <Collapser node={node} onClick={this.handleClickCollapser} />;
+            return (
+                <Collapser node={node} nodeDepth={nodeDepth} nodeIndex={index} onClick={this.handleClickCollapser} />
+            );
         }
 
-        return <Expander node={node} onClick={this.handleClickExpander} />;
+        return <Expander node={node} nodeDepth={nodeDepth} nodeIndex={index} onClick={this.handleClickExpander} />;
     }
 
     renderContent() {
@@ -72,6 +76,7 @@ export default class TreeNode extends React.PureComponent {
             onNodeContextMenu,
             nodeContentClassName,
             nodeContentStyle,
+            nodeContentComponent: Content,
         } = data;
         const node = items[index];
         const nodeDepth = depthList[index];
@@ -97,16 +102,16 @@ export default class TreeNode extends React.PureComponent {
         const handlerParams = { node, nodeDepth, nodeIndex: index };
 
         return (
-            <div
-                className={classNames('VTTree__NodeContent', className)}
+            <Content
+                node={node}
+                nodeDepth={nodeDepth}
+                nodeIndex={index}
                 style={optionalStyle}
-                title={node.content}
+                className={className}
                 onClick={onNodeClick && (event => onNodeClick(event, handlerParams))}
                 onDoubleClick={onNodeDoubleClick && (event => onNodeDoubleClick(event, handlerParams))}
                 onContextMenu={onNodeContextMenu && (event => onNodeContextMenu(event, handlerParams))}
-            >
-                {node.content}
-            </div>
+            />
         );
     }
 

@@ -6,6 +6,7 @@ import { FixedSizeList as List } from 'react-window';
 import NodeCollapser from '../NodeCollapser/NodeCollapser';
 import NodeExpander from '../NodeExpander/NodeExpander';
 import NodeIcon from '../NodeIcon/NodeIcon';
+import NodeContent from '../NodeContent/NodeContent';
 
 const getItemData = memoize(
     (
@@ -27,6 +28,7 @@ const getItemData = memoize(
         nodeExpanderComponent,
         nodeCollapserComponent,
         nodeIconComponent,
+        nodeContentComponent,
         ...additionalData
     ) => ({
         items,
@@ -47,6 +49,7 @@ const getItemData = memoize(
         nodeExpanderComponent,
         nodeCollapserComponent,
         nodeIconComponent,
+        nodeContentComponent,
         additionalData,
     })
 );
@@ -118,6 +121,9 @@ export default class Tree extends React.PureComponent {
         /** Node icon component */
         nodeIconComponent: PropTypes.func,
 
+        /** Node content component */
+        nodeContentComponent: PropTypes.func,
+
         /** Height of tree row */
         itemHeight: PropTypes.number,
 
@@ -140,6 +146,7 @@ export default class Tree extends React.PureComponent {
         nodeExpanderComponent: NodeExpander,
         nodeCollapserComponent: NodeCollapser,
         nodeIconComponent: NodeIcon,
+        nodeContentComponent: NodeContent,
         itemHeight: 25,
         initialScrollOffset: 0,
         listProps: {},
@@ -204,6 +211,7 @@ export default class Tree extends React.PureComponent {
             nodeExpanderComponent,
             nodeCollapserComponent,
             nodeIconComponent,
+            nodeContentComponent,
             itemHeight,
             initialScrollOffset,
             listProps,
@@ -228,7 +236,8 @@ export default class Tree extends React.PureComponent {
             onNodeExpand,
             nodeExpanderComponent,
             nodeCollapserComponent,
-            nodeIconComponent
+            nodeIconComponent,
+            nodeContentComponent
         );
 
         return (
