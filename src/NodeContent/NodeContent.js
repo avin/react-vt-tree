@@ -1,13 +1,13 @@
+// @flow
+
 import React from 'react';
 import classNames from 'classnames';
+import type { NodeElementProps } from '../TreeNode/TreeNode';
 
-export default class NodeContent extends React.Component {
-    render() {
-        const { className, node, nodeDepth, nodeIndex, ...props } = this.props;
-        return (
-            <div {...props} className={classNames('VTTree__NodeContent', className)}>
-                {node.content}
-            </div>
-        );
-    }
-}
+const NodeContent = ({ className, node, nodeDepth, nodeIndex, ...props }: NodeElementProps) => (
+    <div {...props} className={classNames('VTTree__NodeContent', className)}>
+        {node.content}
+    </div>
+);
+
+export default NodeContent;

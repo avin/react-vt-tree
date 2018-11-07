@@ -1,7 +1,10 @@
-import React from 'react';
-import classNames from 'classnames';
+// @flow
 
-const NodeExpander = ({ className, node, nodeDepth, nodeIndex, ...props }) => (
+import * as React from 'react';
+import classNames from 'classnames';
+import type { NodeElementProps } from '../TreeNode/TreeNode';
+
+const NodeExpander = ({ className, node, nodeDepth, nodeIndex, ...props }: NodeElementProps) => (
     <svg
         x="0px"
         y="0px"

@@ -1,4 +1,6 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import memoize from 'memoize-one';
 import TreeNode from '../TreeNode';
@@ -51,95 +53,112 @@ const getItemData = memoize(
         nodeIconComponent,
         nodeContentComponent,
         additionalData,
-    })
+    }),
 );
 
-export default class Tree extends React.PureComponent {
-    static propTypes = {
-        /** Width of tree container */
-        width: PropTypes.number.isRequired,
+type NodeParams = {|
+    node: any,
+    nodeDepth: number,
+    nodeIndex: number,
+|};
 
-        /** Height of tree container */
-        height: PropTypes.number.isRequired,
+type nodeActionHandler = (event: SyntheticMouseEvent<HTMLElement>, nodeParams: NodeParams) => void;
+type onScrollHandler = ({
+    scrollDirection: 'forward' | 'backward',
+    scrollOffset: number,
+    scrollUpdateWasRequested: boolean,
+}) => void;
 
-        className: PropTypes.string,
+type TreeProps = {|
+    /** Width of tree container */
+    width: number,
 
-        /** Tree node items */
-        nodes: PropTypes.any.isRequired,
+    /** Height of tree container */
+    height: number,
 
-        /** Selector to get expanded status of node item */
-        isNodeExpandedSelector: PropTypes.func.isRequired,
+    /** Optional class name tree-list */
+    className?: string,
 
-        /** Selector to get child-nodes */
-        nodeChildrenSelector: PropTypes.func.isRequired,
+    /** Optional CSS style object for tree-list */
+    style?: Object,
 
-        /** Selector to determine children presence */
-        hasChildItemsSelector: PropTypes.func.isRequired,
+    /** Tree node-items */
+    nodes: any,
 
-        /** Selector to get first level items (with no parents) */
-        firstLevelItemsSelector: PropTypes.func.isRequired,
+    /** Selector to get expanded status of node item */
+    isNodeExpandedSelector: Function,
 
-        /** Padding of 1x depth level */
-        levelPadding: PropTypes.number,
+    /** Selector to get child-nodes */
+    nodeChildrenSelector: Function,
 
-        /** Node optional className string or generate function */
-        nodeClassName: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    /** Selector to determine children presence */
+    hasChildItemsSelector: Function,
 
-        /** Node optional style object or generate function */
-        nodeStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+    /** Selector to get first level items (with no parents) */
+    firstLevelItemsSelector: Function,
 
-        /** Node content optional className string or generate function */
-        nodeContentClassName: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    /** Padding of 1x depth level */
+    levelPadding?: number,
 
-        /** Node content optional style object or generate function */
-        nodeContentStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+    /** Node optional className string or generate function */
+    nodeClassName?: string | (params: NodeParams) => string,
 
-        /** On node click handler */
-        onNodeClick: PropTypes.func,
+    /** Node optional style object or generate function */
+    nodeStyle?: PropTypes.object | (params: NodeParams) => Object,
 
-        /** On node collapse handler */
-        onNodeCollapse: PropTypes.func,
+    /** Node content optional className string or generate function */
+    nodeContentClassName?: string | (params: NodeParams) => string,
 
-        /** On click Node Icon handler */
-        onNodeIconClick: PropTypes.func,
+    /** Node content optional style object or generate function */
+    nodeContentStyle?: PropTypes.object | (params: NodeParams) => Object,
 
-        /** On node context menu handler */
-        onNodeContextMenu: PropTypes.func,
+    /** On node click handler */
+    onNodeClick?: nodeActionHandler,
 
-        /** On node double click handler */
-        onNodeDoubleClick: PropTypes.func,
+    /** On node collapse handler */
+    onNodeCollapse?: nodeActionHandler,
 
-        /** On node expand handler */
-        onNodeExpand: PropTypes.func,
+    /** On click Node Icon handler */
+    onNodeIconClick?: nodeActionHandler,
 
-        /** Node Expander component */
-        nodeExpanderComponent: PropTypes.func,
+    /** On node context menu handler */
+    onNodeContextMenu?: nodeActionHandler,
 
-        /** Node Collapser component */
-        nodeCollapserComponent: PropTypes.func,
+    /** On node double click handler */
+    onNodeDoubleClick?: nodeActionHandler,
 
-        /** Node icon component */
-        nodeIconComponent: PropTypes.func,
+    /** On node expand handler */
+    onNodeExpand?: nodeActionHandler,
 
-        /** Node content component */
-        nodeContentComponent: PropTypes.func,
+    /** Node Expander component */
+    nodeExpanderComponent?: React.Component<any>,
 
-        /** Height of tree row */
-        itemHeight: PropTypes.number,
+    /** Node Collapser component */
+    nodeCollapserComponent?: Function,
 
-        /** On scroll tree list */
-        onScroll: PropTypes.func,
+    /** Node icon component */
+    nodeIconComponent?: Function,
 
-        /** Scroll offset for initial tree list render */
-        initialScrollOffset: PropTypes.number,
+    /** Node content component */
+    nodeContentComponent?: Function,
 
-        /**
-         * Any other react-window list props
-         * @see https://react-window.now.sh/#/api/FixedSizeList
-         **/
-        listProps: PropTypes.object,
-    };
+    /** Height of tree row */
+    itemHeight?: number,
 
+    /** On scroll tree list */
+    onScroll?: onScrollHandler,
+
+    /** Scroll offset for initial tree list render */
+    initialScrollOffset?: number,
+
+    /**
+     * Any other react-window list props
+     * @see https://react-window.now.sh/#/api/FixedSizeList
+     **/
+    listProps?: PropTypes.object,
+|};
+
+export default class Tree extends React.PureComponent<TreeProps> {
     static defaultProps = {
         style: {},
         levelPadding: 20,
@@ -152,7 +171,11 @@ export default class Tree extends React.PureComponent {
         listProps: {},
     };
 
-    _createList(nodes) {
+    _nodesList: Array<any>;
+    _depthList: Array<number>;
+    _listRef: ?React.ElementRef<any>;
+
+    _createList(nodes: any) {
         const { nodeChildrenSelector, isNodeExpandedSelector } = this.props;
 
         let list = [];
@@ -172,17 +195,17 @@ export default class Tree extends React.PureComponent {
         };
         fillList(nodes, 0);
 
-        this._list = list;
+        this._nodesList = list;
         this._depthList = depthList;
 
-        return [this._list, this._depthList];
+        return [this._nodesList, this._depthList];
     }
 
-    scrollToNode(findIndexFunction) {
+    scrollToNode(findIndexFunction: Function) {
         if (typeof findIndexFunction === 'function') {
-            const nodeIndex = this._list.findIndex(findIndexFunction);
+            const nodeIndex = this._nodesList.findIndex(findIndexFunction);
             if (nodeIndex !== undefined) {
-                this.list.scrollToItem(nodeIndex);
+                this._listRef && this._listRef.scrollToItem(nodeIndex);
             }
         }
     }
@@ -237,12 +260,12 @@ export default class Tree extends React.PureComponent {
             nodeExpanderComponent,
             nodeCollapserComponent,
             nodeIconComponent,
-            nodeContentComponent
+            nodeContentComponent,
         );
 
         return (
             <List
-                ref={i => (this.list = i)}
+                ref={i => (this._listRef = i)}
                 height={height}
                 itemCount={items.length}
                 itemData={itemData}

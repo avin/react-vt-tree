@@ -1,9 +1,29 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
 
-export default class TreeNode extends React.PureComponent {
-    handleClickIcon = event => {
-        event.preventDefault();
+export type NodeElementProps = {
+    className?: string,
+    node: any,
+    nodeDepth: number,
+    nodeIndex: number,
+};
+
+type TreeNodeProps = {|
+    /** Item additional data */
+    data: Object,
+
+    /** Node row index */
+    index: number,
+
+    /** Node row specific style */
+    style: Object,
+|};
+
+export default class TreeNode extends React.PureComponent<TreeNodeProps> {
+    handleClickIcon = (event: SyntheticMouseEvent<HTMLElement>) => {
+        event.stopPropagation();
         const { data, index } = this.props;
         const { items, depthList, onNodeIconClick } = data;
         const node = items[index];
@@ -14,8 +34,8 @@ export default class TreeNode extends React.PureComponent {
         onNodeIconClick && onNodeIconClick(event, handlerParams);
     };
 
-    handleClickCollapser = event => {
-        event.preventDefault();
+    handleClickCollapser = (event: SyntheticMouseEvent<HTMLElement>) => {
+        event.stopPropagation();
         const { data, index } = this.props;
         const { items, depthList, onNodeCollapse } = data;
         const node = items[index];
@@ -26,8 +46,8 @@ export default class TreeNode extends React.PureComponent {
         onNodeCollapse && onNodeCollapse(event, handlerParams);
     };
 
-    handleClickExpander = event => {
-        event.preventDefault();
+    handleClickExpander = (event: SyntheticMouseEvent<HTMLElement>) => {
+        event.stopPropagation();
         const { data, index } = this.props;
         const { items, depthList, onNodeExpand } = data;
         const node = items[index];

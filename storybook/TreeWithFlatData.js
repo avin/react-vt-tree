@@ -1,7 +1,7 @@
 import React from 'react';
 import treeData from './utils/flatTreeData';
 import SizeMe from '@avinlab/react-size-me';
-import Tree from '../src/Tree';
+import Tree from '../src';
 import JSONTree from 'react-json-tree';
 import jsonViewerTheme from './utils/jsonViewerTheme';
 import { action } from '@storybook/addon-actions';

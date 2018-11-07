@@ -1,7 +1,7 @@
 import React from 'react';
 import treeData from './utils/flatTreeData';
 import SizeMe from '@avinlab/react-size-me';
-import Tree from '../src/Tree';
+import Tree from '../src';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faArrowDown, faFish } from '@fortawesome/free-solid-svg-icons';
 import SourceCode from './SourceCode';
