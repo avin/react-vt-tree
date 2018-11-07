@@ -139,7 +139,7 @@ export default class Tree extends React.PureComponent {
     _createList(nodes, depth = 0) {
         const { nodeChildrenSelector, isNodeExpandedSelector } = this.props;
 
-        return nodes.reduce((resultList, node) => {
+        this._list = nodes.reduce((resultList, node) => {
             node._depth = depth;
             resultList.push(node);
             if (isNodeExpandedSelector(node)) {
@@ -150,6 +150,17 @@ export default class Tree extends React.PureComponent {
             }
             return resultList;
         }, []);
+
+        return this._list;
+    }
+
+    scrollToNode(findIndexFunction) {
+        if (typeof findIndexFunction === 'function') {
+            const nodeIndex = this._list.findIndex(findIndexFunction);
+            if (nodeIndex !== undefined) {
+                this.list.scrollToItem(nodeIndex);
+            }
+        }
     }
 
     render() {
@@ -200,7 +211,14 @@ export default class Tree extends React.PureComponent {
 
         return (
             <div className={className} style={style}>
-                <List height={height} itemCount={items.length} itemData={itemData} itemSize={itemHeight} width={width}>
+                <List
+                    ref={i => (this.list = i)}
+                    height={height}
+                    itemCount={items.length}
+                    itemData={itemData}
+                    itemSize={itemHeight}
+                    width={width}
+                >
                     {TreeNode}
                 </List>
             </div>
