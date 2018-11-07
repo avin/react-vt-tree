@@ -5,6 +5,7 @@ import Tree from '../src/Tree';
 import JSONTree from 'react-json-tree';
 import jsonViewerTheme from './utils/jsonViewerTheme';
 import { action } from '@storybook/addon-actions';
+import SourceCode from './SourceCode';
 
 export default class TreeWithFlatData extends React.Component {
     state = {
@@ -48,9 +49,12 @@ export default class TreeWithFlatData extends React.Component {
 
         return (
             <div>
-                Tree size: <b>{treeData.nodes.length}</b> items &nbsp;
-                <button onClick={this.handleExpandAll}>Expand all</button> &nbsp;
-                <button onClick={this.handleCollapseAll}>Collapse all</button> &nbsp;
+                <SourceCode>TreeWithFlatData.js</SourceCode>
+                <div>
+                    Tree size: <b>{treeData.nodes.length}</b> items &nbsp;
+                    <button onClick={this.handleExpandAll}>Expand all</button> &nbsp;
+                    <button onClick={this.handleCollapseAll}>Collapse all</button>
+                </div>
                 <hr />
                 <div className="treeContainer">
                     <SizeMe>

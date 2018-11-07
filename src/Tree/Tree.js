@@ -125,6 +125,12 @@ export default class Tree extends React.PureComponent {
 
         /** Height of tree row */
         itemHeight: PropTypes.number,
+
+        /** On scroll tree list */
+        onScroll: PropTypes.func,
+
+        /** Scroll offset for initial tree list render */
+        initialScrollOffset: PropTypes.number,
     };
 
     static defaultProps = {
@@ -134,6 +140,7 @@ export default class Tree extends React.PureComponent {
         nodeCollapserComponent: NodeCollapser,
         nodeIconComponent: NodeIcon,
         itemHeight: 25,
+        initialScrollOffset: 0,
     };
 
     _createList(nodes, depth = 0) {
@@ -187,6 +194,7 @@ export default class Tree extends React.PureComponent {
             nodeCollapserComponent,
             nodeIconComponent,
             itemHeight,
+            initialScrollOffset,
         } = this.props;
         const items = this._createList(firstLevelItemsSelector(nodes));
 
@@ -210,18 +218,19 @@ export default class Tree extends React.PureComponent {
         );
 
         return (
-            <div className={className} style={style}>
-                <List
-                    ref={i => (this.list = i)}
-                    height={height}
-                    itemCount={items.length}
-                    itemData={itemData}
-                    itemSize={itemHeight}
-                    width={width}
-                >
-                    {TreeNode}
-                </List>
-            </div>
+            <List
+                ref={i => (this.list = i)}
+                height={height}
+                itemCount={items.length}
+                itemData={itemData}
+                itemSize={itemHeight}
+                width={width}
+                className={className}
+                style={style}
+                initialScrollOffset={initialScrollOffset}
+            >
+                {TreeNode}
+            </List>
         );
     }
 }

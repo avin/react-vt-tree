@@ -4,6 +4,20 @@ body {
         'Droid Sans', 'Helvetica Neue', sans-serif;
 }
 
+.sourceCode{
+    position: fixed;
+    top: 5px;
+    right: 10px;
+    //font-weight: bold;
+    width: 150px;
+    text-align: center;
+    background-color: #e1e8ed;
+    padding: 4px;
+    box-shadow: 1px 1px 2px #AAA;
+    border: 1px solid #AAAAAA;
+
+}
+
 .treeContainer {
     width: 200px;
     height: 400px;
@@ -11,12 +25,15 @@ body {
     box-sizing: border-box;
     user-select: none;
     margin-right: 5px;
+}
 
-    .header {
-        border-bottom: 1px solid #137cbd;
-        padding: 5px;
-        text-align: center;
-    }
+.header {
+    @extend .treeContainer;
+    border-bottom: none;
+    height: inherit;
+    text-align: center;
+    padding: 2px;
+    font-weight: bold;
 }
 
 .container {
@@ -41,6 +58,7 @@ body {
         min-width: 16px;
         min-height: 16px;
         margin-left: 5px;
+        cursor: pointer;
     }
 
     @-webkit-keyframes rotating {

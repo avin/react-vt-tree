@@ -4,6 +4,7 @@ import SizeMe from '@avinlab/react-size-me';
 import Tree from '../src/Tree';
 import JSONTree from 'react-json-tree';
 import jsonViewerTheme from './utils/jsonViewerTheme';
+import SourceCode from './SourceCode';
 
 export default class TreeWithStructuredData extends React.Component {
     state = {
@@ -47,9 +48,12 @@ export default class TreeWithStructuredData extends React.Component {
 
         return (
             <div>
-                Tree size: <b>{treeNodesSize}</b> items &nbsp;
-                <button onClick={this.handleExpandAll}>Expand all</button> &nbsp;
-                <button onClick={this.handleCollapseAll}>Collapse all</button> &nbsp;
+                <SourceCode>TreeWithStructuredData.js</SourceCode>
+                <div>
+                    Tree size: <b>{treeNodesSize}</b> items &nbsp;
+                    <button onClick={this.handleExpandAll}>Expand all</button> &nbsp;
+                    <button onClick={this.handleCollapseAll}>Collapse all</button>
+                </div>
                 <hr />
                 <div className="treeContainer">
                     <SizeMe>

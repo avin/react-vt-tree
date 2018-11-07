@@ -2,6 +2,7 @@ import React from 'react';
 import treeData from './utils/flatTreeData';
 import SizeMe from '@avinlab/react-size-me';
 import Tree from '../src/Tree';
+import SourceCode from './SourceCode';
 
 export default class ScrollToTreeNode extends React.Component {
     state = {
@@ -34,10 +35,13 @@ export default class ScrollToTreeNode extends React.Component {
 
         return (
             <div>
-                <button onClick={this.handleScrollToNode}>
-                    Scroll to <b>{scrollToNodeContent}</b>
-                </button>{' '}
-                &nbsp;
+                <SourceCode>ScrollToTreeNode.js</SourceCode>
+
+                <div>
+                    <button onClick={this.handleScrollToNode}>
+                        Scroll to <b>{scrollToNodeContent}</b>
+                    </button>{' '}
+                </div>
                 <hr />
                 <div className="treeContainer">
                     <SizeMe>

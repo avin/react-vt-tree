@@ -4,6 +4,7 @@ import SizeMe from '@avinlab/react-size-me';
 import Tree from '../src/Tree';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faArrowDown, faFish } from '@fortawesome/free-solid-svg-icons';
+import SourceCode from './SourceCode';
 
 export default class Styling extends React.Component {
     state = {
@@ -58,69 +59,82 @@ export default class Styling extends React.Component {
 
         return (
             <div>
-                Tree size: <b>{treeData.nodes.length}</b> items &nbsp;
-                <button onClick={this.handleExpandAll}>Expand all</button> &nbsp;
-                <button onClick={this.handleCollapseAll}>Collapse all</button> &nbsp;
+                <SourceCode>Styling.js</SourceCode>
+                <div>
+                    Tree size: <b>{treeData.nodes.length}</b> items &nbsp;
+                    <button onClick={this.handleExpandAll}>Expand all</button> &nbsp;
+                    <button onClick={this.handleCollapseAll}>Collapse all</button>
+                </div>
                 <hr />
                 <div className="container">
-                    <div className="treeContainer defaultStyle">
+                    <div>
                         <div className="header">Default style</div>
-                        <SizeMe>{({ width, height }) => <Tree {...mainProps} width={width} height={height} />}</SizeMe>
+                        <div className="treeContainer defaultStyle">
+                            <SizeMe>
+                                {({ width, height }) => <Tree {...mainProps} width={width} height={height} />}
+                            </SizeMe>
+                        </div>
                     </div>
 
-                    <div className="treeContainer style1">
+                    <div>
                         <div className="header">Hover node effect</div>
-                        <SizeMe>
-                            {({ width, height }) => (
-                                <Tree {...mainProps} width={width} height={height} nodeClassName="treeNode" />
-                            )}
-                        </SizeMe>
+                        <div className="treeContainer style1">
+                            <SizeMe>
+                                {({ width, height }) => (
+                                    <Tree {...mainProps} width={width} height={height} nodeClassName="treeNode" />
+                                )}
+                            </SizeMe>
+                        </div>
                     </div>
 
-                    <div className="treeContainer style2">
+                    <div>
                         <div className="header">Font-awesome icons</div>
-                        <SizeMe>
-                            {({ width, height }) => (
-                                <Tree
-                                    {...mainProps}
-                                    width={width}
-                                    height={height}
-                                    nodeExpanderComponent={({ node, ...props }) => (
-                                        <div className="nodeIcon" {...props}>
-                                            <FontAwesomeIcon icon={faArrowRight} {...props} />
-                                        </div>
-                                    )}
-                                    nodeCollapserComponent={({ node, ...props }) => (
-                                        <div className="nodeIcon" {...props}>
-                                            <FontAwesomeIcon icon={faArrowDown} {...props} />
-                                        </div>
-                                    )}
-                                    nodeIconComponent={({ node, ...props }) => (
-                                        <div className="nodeIcon rotating" {...props}>
-                                            <FontAwesomeIcon icon={faFish} {...props} />
-                                        </div>
-                                    )}
-                                />
-                            )}
-                        </SizeMe>
+                        <div className="treeContainer style2">
+                            <SizeMe>
+                                {({ width, height }) => (
+                                    <Tree
+                                        {...mainProps}
+                                        width={width}
+                                        height={height}
+                                        nodeExpanderComponent={({ node, ...props }) => (
+                                            <div className="nodeIcon" {...props}>
+                                                <FontAwesomeIcon icon={faArrowRight} {...props} />
+                                            </div>
+                                        )}
+                                        nodeCollapserComponent={({ node, ...props }) => (
+                                            <div className="nodeIcon" {...props}>
+                                                <FontAwesomeIcon icon={faArrowDown} {...props} />
+                                            </div>
+                                        )}
+                                        nodeIconComponent={({ node, ...props }) => (
+                                            <div className="nodeIcon rotating" {...props}>
+                                                <FontAwesomeIcon icon={faFish} {...props} />
+                                            </div>
+                                        )}
+                                    />
+                                )}
+                            </SizeMe>
+                        </div>
                     </div>
 
-                    <div className="treeContainer style1">
+                    <div>
                         <div className="header">No-padding tree</div>
-                        <SizeMe>
-                            {({ width, height }) => (
-                                <Tree
-                                    {...mainProps}
-                                    width={width}
-                                    height={height}
-                                    levelPadding={0}
-                                    nodeStyle={node => ({
-                                        backgroundColor: `rgba(0,0,0,${node._depth / 5})`,
-                                        color: node._depth > 2 ? '#FFF' : '#000',
-                                    })}
-                                />
-                            )}
-                        </SizeMe>
+                        <div className="treeContainer style1">
+                            <SizeMe>
+                                {({ width, height }) => (
+                                    <Tree
+                                        {...mainProps}
+                                        width={width}
+                                        height={height}
+                                        levelPadding={0}
+                                        nodeStyle={node => ({
+                                            backgroundColor: `rgba(0,0,0,${node._depth / 5})`,
+                                            color: node._depth > 2 ? '#FFF' : '#000',
+                                        })}
+                                    />
+                                )}
+                            </SizeMe>
+                        </div>
                     </div>
                 </div>
             </div>
