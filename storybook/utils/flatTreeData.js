@@ -1,7 +1,7 @@
 let nounce = 1;
 function generateNodes(depth, parentId) {
     let items = [];
-    for (let i = 0; i < 10; i += 1) {
+    for (let i = 0; i < 5; i += 1) {
         const id = 'i' + nounce;
         items.push({
             id,
@@ -9,7 +9,7 @@ function generateNodes(depth, parentId) {
             parentId,
         });
         if (depth < 3) {
-            items = [...items, ...generateNodes(depth + 1, id)];
+            items = items.concat(generateNodes(depth + 1, id));
         }
     }
     return items;
@@ -29,3 +29,4 @@ for (let node of nodes) {
     }
 }
 export default { nodes, nodesIndexes };
+

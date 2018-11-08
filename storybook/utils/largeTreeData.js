@@ -1,7 +1,7 @@
 let nounce = 1;
 function generateNodes(depth) {
     let items = [];
-    for (let i = 0; i < 32; i += 1) {
+    for (let i = 0; i < 25; i += 1) {
         const id = String(nounce);
         items.push({
             id,

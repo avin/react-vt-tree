@@ -53,7 +53,7 @@ const getItemData = memoize(
         nodeIconComponent,
         nodeContentComponent,
         additionalData,
-    }),
+    })
 );
 
 type NodeParams = {|
@@ -101,16 +101,16 @@ type TreeProps = {|
     levelPadding?: number,
 
     /** Node optional className string or generate function */
-    nodeClassName?: string | (params: NodeParams) => string,
+    nodeClassName?: string | ((params: NodeParams) => string),
 
     /** Node optional style object or generate function */
-    nodeStyle?: PropTypes.object | (params: NodeParams) => Object,
+    nodeStyle?: PropTypes.object | ((params: NodeParams) => Object),
 
     /** Node content optional className string or generate function */
-    nodeContentClassName?: string | (params: NodeParams) => string,
+    nodeContentClassName?: string | ((params: NodeParams) => string),
 
     /** Node content optional style object or generate function */
-    nodeContentStyle?: PropTypes.object | (params: NodeParams) => Object,
+    nodeContentStyle?: PropTypes.object | ((params: NodeParams) => Object),
 
     /** On node click handler */
     onNodeClick?: nodeActionHandler,
@@ -260,7 +260,7 @@ export default class Tree extends React.PureComponent<TreeProps> {
             nodeExpanderComponent,
             nodeCollapserComponent,
             nodeIconComponent,
-            nodeContentComponent,
+            nodeContentComponent
         );
 
         return (

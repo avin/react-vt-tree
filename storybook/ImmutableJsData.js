@@ -1,31 +1,35 @@
 import React from 'react';
-import treeData from './utils/flatTreeData';
+import treeData from './utils/immutableJsTreeData';
 import SizeMe from '@avinlab/react-size-me';
 import Tree from '../src';
 import JSONTree from 'react-json-tree';
 import jsonViewerTheme from './utils/jsonViewerTheme';
 import { action } from '@storybook/addon-actions';
 import SourceCode from './SourceCode';
+import * as  Immutable from 'immutable';
 
-export default class TreeWithFlatData extends React.Component {
+const ContentComponent = ({node, nodeDepth, nodeIndex, ...props}) => <div {...props}>{node.get('content')}</div>
+
+export default class ImmutableJsData extends React.Component {
     state = {
         expandedNodes: new Set(),
     };
 
     handleNodeExpand = (e, { node }) => {
         let expandedNodes = new Set(this.state.expandedNodes);
-        expandedNodes.add(node.id);
+        expandedNodes.add(node.get('id'));
         this.setState({ expandedNodes });
     };
 
     handleNodeCollapse = (e, { node }) => {
         let expandedNodes = new Set(this.state.expandedNodes);
-        expandedNodes.delete(node.id);
+        expandedNodes.delete(node.get('id'));
         this.setState({ expandedNodes });
     };
 
     handleExpandAll = () => {
         const expandedNodes = new Set(Object.keys(treeData.nodesIndexes));
+        console.log('expandedNodes', expandedNodes);
         this.setState({ expandedNodes });
     };
 
@@ -35,9 +39,9 @@ export default class TreeWithFlatData extends React.Component {
 
     getChildNodes = node => {
         let results = [];
-        node.childIds &&
-            node.childIds.forEach(childId => {
-                results.push(treeData.nodes[treeData.nodesIndexes[childId]]);
+        node.get('childIds') &&
+            node.get('childIds').forEach(childId => {
+                results.push(treeData.nodes.get(treeData.nodesIndexes[childId]));
             });
         if (results.length) {
             return results;
@@ -51,7 +55,7 @@ export default class TreeWithFlatData extends React.Component {
             <div>
                 <SourceCode>TreeWithFlatData.js</SourceCode>
                 <div>
-                    Tree size: <b>{treeData.nodes.length}</b> items &nbsp;
+                    Tree size: <b>{treeData.nodes.size}</b> items &nbsp;
                     <button onClick={this.handleExpandAll}>Expand all</button> &nbsp;
                     <button onClick={this.handleCollapseAll}>Collapse all</button>
                 </div>
@@ -66,13 +70,14 @@ export default class TreeWithFlatData extends React.Component {
                                 onNodeExpand={this.handleNodeExpand}
                                 onNodeCollapse={this.handleNodeCollapse}
                                 nodeChildrenSelector={node => this.getChildNodes(node)}
-                                firstLevelItemsSelector={nodes => nodes.filter(i => !i.parentId)}
-                                hasChildItemsSelector={node => node.childIds && node.childIds.length}
-                                isNodeExpandedSelector={node => expandedNodes.has(node.id)}
+                                firstLevelItemsSelector={nodes => nodes.filter(i => !i.get('parentId'))}
+                                hasChildItemsSelector={node => node.get('childIds', new Immutable.List()).size}
+                                isNodeExpandedSelector={node => expandedNodes.has(node.get('id'))}
                                 additionalData={{ expandedNodes }}
                                 onNodeClick={action('onNodeClick')}
                                 onNodeDoubleClick={action('onNodeDoubleClick')}
                                 onNodeContextMenu={action('onNodeContextMenu')}
+                                nodeContentComponent={ContentComponent}
                             />
                         )}
                     </SizeMe>

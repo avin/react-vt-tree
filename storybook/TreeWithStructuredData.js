@@ -73,7 +73,7 @@ export default class TreeWithStructuredData extends React.Component {
                         )}
                     </SizeMe>
                 </div>
-                <h2>Content data structure:</h2>
+                <h3>Content data structure:</h3>
                 <JSONTree data={treeNodes} theme={jsonViewerTheme} />
             </div>
         );

@@ -1,6 +1,6 @@
 {
     "name": "react-vt-tree",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "...",
     "author": "Avin Grape <carcinogen75@gmail.com> (https://github.com/avin/)",
     "contributors": [
@@ -59,6 +59,7 @@
     "dependencies": {
         "@babel/runtime": "^7.0.0",
         "classnames": "^2.2.6",
+        "immutable": "^4.0.0-rc.12",
         "memoize-one": "^4.0.2",
         "react-window": "^1.2.4"
     },

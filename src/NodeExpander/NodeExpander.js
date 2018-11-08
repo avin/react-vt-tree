@@ -1,17 +1,15 @@
 // @flow
 
 import * as React from 'react';
-import classNames from 'classnames';
 import type { NodeElementProps } from '../TreeNode/TreeNode';
 
-const NodeExpander = ({ className, node, nodeDepth, nodeIndex, ...props }: NodeElementProps) => (
+const NodeExpander = ({ node, nodeDepth, nodeIndex, ...props }: NodeElementProps) => (
     <svg
         x="0px"
         y="0px"
         viewBox="0 0 16 16"
         enableBackground="new 0 0 16 16"
         {...props}
-        className={classNames('VTTree__NodeIcon VTTree__NodeIcon--expand', className)}
     >
         <g>
             <path

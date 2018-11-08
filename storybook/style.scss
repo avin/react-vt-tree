@@ -4,8 +4,15 @@ body {
         'Droid Sans', 'Helvetica Neue', sans-serif;
 }
 
+.column-container{
+    position: relative;
+    margin-right: 20px;
+    border:1px solid black;
+    padding: 20px;
+}
+
 .sourceCode{
-    position: fixed;
+    position: absolute;
     top: 5px;
     right: 10px;
     //font-weight: bold;

@@ -5,6 +5,15 @@ import Tree from '../src';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faArrowDown, faFish } from '@fortawesome/free-solid-svg-icons';
 import SourceCode from './SourceCode';
+import classNames from 'classnames';
+
+const SimpleExpander = ({ node, nodeDepth, nodeIndex, ...props }) => <div {...props}>+</div>;
+const SimpleCollapser = ({ node, nodeDepth, nodeIndex, ...props }) => <div {...props}>-</div>;
+const SimpleIcon = ({ node, nodeDepth, nodeIndex, ...props }) => (
+    <div {...props}>
+        <b>➤</b>
+    </div>
+);
 
 export default class Styling extends React.Component {
     state = {
@@ -96,19 +105,31 @@ export default class Styling extends React.Component {
                                         {...mainProps}
                                         width={width}
                                         height={height}
-                                        nodeExpanderComponent={({ node, ...props }) => (
-                                            <div className="nodeIcon" {...props}>
+                                        nodeExpanderComponent={({
+                                            node,
+                                            nodeDepth,
+                                            nodeIndex,
+                                            className,
+                                            ...props
+                                        }) => (
+                                            <div {...props} className={classNames(className, 'nodeIcon')}>
                                                 <FontAwesomeIcon icon={faArrowRight} {...props} />
                                             </div>
                                         )}
-                                        nodeCollapserComponent={({ node, ...props }) => (
-                                            <div className="nodeIcon" {...props}>
+                                        nodeCollapserComponent={({
+                                            node,
+                                            nodeDepth,
+                                            nodeIndex,
+                                            className,
+                                            ...props
+                                        }) => (
+                                            <div {...props} className={classNames(className, 'nodeIcon')}>
                                                 <FontAwesomeIcon icon={faArrowDown} {...props} />
                                             </div>
                                         )}
-                                        nodeIconComponent={({ node, ...props }) => (
-                                            <div className="nodeIcon rotating" {...props}>
-                                                <FontAwesomeIcon icon={faFish} {...props} />
+                                        nodeIconComponent={({ node, nodeDepth, nodeIndex, className, ...props }) => (
+                                            <div {...props} className={classNames(className, 'nodeIcon rotating')}>
+                                                <FontAwesomeIcon {...props} icon={faFish} />
                                             </div>
                                         )}
                                     />
@@ -127,10 +148,30 @@ export default class Styling extends React.Component {
                                         width={width}
                                         height={height}
                                         levelPadding={0}
-                                        nodeStyle={({nodeDepth}) => ({
+                                        nodeStyle={({ nodeDepth }) => ({
                                             backgroundColor: `rgba(0,0,0,${nodeDepth / 5})`,
                                             color: nodeDepth > 2 ? '#FFF' : '#000',
                                         })}
+                                    />
+                                )}
+                            </SizeMe>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div className="header">Ultra simple</div>
+                        <div className="treeContainer style1">
+                            <SizeMe>
+                                {({ width, height }) => (
+                                    <Tree
+                                        {...mainProps}
+                                        width={width}
+                                        height={height}
+                                        nodeExpanderComponent={SimpleExpander}
+                                        nodeCollapserComponent={SimpleCollapser}
+                                        nodeIconComponent={SimpleIcon}
+                                        itemHeight={20}
+                                        levelPadding={15}
                                     />
                                 )}
                             </SizeMe>
