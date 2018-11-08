@@ -1,6 +1,9 @@
-import React from 'react';
+// @flow
 
-const NodeCollapser = ({node, nodeDepth, nodeIndex, ...props}) => (
+import React from 'react';
+import type { NodeElementProps } from '../Tree/Tree';
+
+const NodeCollapser = ({node, nodeDepth, nodeIndex, ...props}: NodeElementProps) => (
     <svg
         x="0px"
         y="0px"

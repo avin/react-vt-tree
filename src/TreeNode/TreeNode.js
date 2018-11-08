@@ -3,13 +3,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
-export type NodeElementProps = {
-    className?: string,
-    node: any,
-    nodeDepth: number,
-    nodeIndex: number,
-};
-
 type TreeNodeProps = {|
     /** Item additional data */
     data: Object,

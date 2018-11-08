@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import type { NodeElementProps } from '../TreeNode/TreeNode';
+import type { NodeElementProps } from '../Tree/Tree';
 
 const NodeIcon = ({ className, node, nodeDepth, nodeIndex, ...props }: NodeElementProps) => (
     <svg

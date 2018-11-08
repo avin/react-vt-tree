@@ -56,11 +56,17 @@ const getItemData = memoize(
     })
 );
 
-type NodeParams = {|
+export type NodeParams = {
     node: any,
     nodeDepth: number,
     nodeIndex: number,
-|};
+};
+
+export type NodeElementProps = {
+    node?: any,
+    nodeDepth?: number,
+    nodeIndex?: number,
+};
 
 type nodeActionHandler = (event: SyntheticMouseEvent<HTMLElement>, nodeParams: NodeParams) => void;
 type onScrollHandler = ({
@@ -131,16 +137,16 @@ type TreeProps = {|
     onNodeExpand?: nodeActionHandler,
 
     /** Node Expander component */
-    nodeExpanderComponent?: React.Component<any>,
+    nodeExpanderComponent?: React.Component<NodeElementProps>,
 
     /** Node Collapser component */
-    nodeCollapserComponent?: Function,
+    nodeCollapserComponent?: React.Component<NodeElementProps>,
 
     /** Node icon component */
-    nodeIconComponent?: Function,
+    nodeIconComponent?: React.Component<NodeElementProps>,
 
     /** Node content component */
-    nodeContentComponent?: Function,
+    nodeContentComponent?: React.Component<NodeElementProps>,
 
     /** Height of tree row */
     itemHeight?: number,
