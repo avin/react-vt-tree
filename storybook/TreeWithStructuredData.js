@@ -1,7 +1,7 @@
 import React from 'react';
 import treeNodes, { count as treeNodesSize } from './utils/structuredTreeData';
 import SizeMe from '@avinlab/react-size-me';
-import Tree from '../src';
+import {Tree} from '../src';
 import JSONTree from 'react-json-tree';
 import jsonViewerTheme from './utils/jsonViewerTheme';
 import SourceCode from './SourceCode';

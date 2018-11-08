@@ -1,7 +1,7 @@
 import React from 'react';
 import treeNodes, { count as treeNodesSize } from './utils/largeTreeData';
 import SizeMe from '@avinlab/react-size-me';
-import Tree from '../src';
+import {Tree} from '../src';
 import SourceCode from './SourceCode';
 
 export default class StressTreeNode extends React.Component {

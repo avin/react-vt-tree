@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import type { NodeElementProps } from '../Tree/Tree';
+import type { NodeElementProps } from './Tree';
 
 const NodeContent = ({  node, nodeDepth, nodeIndex, ...props }: NodeElementProps) => (
     <div {...props}>

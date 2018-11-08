@@ -37,7 +37,7 @@
         "build:flow": "cpr flow-template dist/index.cjs.js.flow && cpr flow-template dist/index.esm.js.flow",
         "build:source": "rollup -c",
         "deploy": "rimraf demo && npm run build:demo && gh-pages -d demo -r https://github.com/avin/react-vt-tree",
-        "flow": "flow check --max-warnings=0 src && flow check website",
+        "flow": "flow check --max-warnings=0 src",
         "linc": "lint-staged",
         "lint": "eslint '**/*.js'",
         "precommit": "lint-staged",

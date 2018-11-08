@@ -3,12 +3,12 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import memoize from 'memoize-one';
-import TreeNode from '../TreeNode';
+import TreeNode from './TreeNode';
 import { FixedSizeList as List } from 'react-window';
-import NodeCollapser from '../NodeCollapser/NodeCollapser';
-import NodeExpander from '../NodeExpander/NodeExpander';
-import NodeIcon from '../NodeIcon/NodeIcon';
-import NodeContent from '../NodeContent/NodeContent';
+import NodeCollapser from './NodeCollapser';
+import NodeExpander from './NodeExpander';
+import NodeIcon from './NodeIcon';
+import NodeContent from './NodeContent';
 
 const getItemData = memoize(
     (
@@ -63,7 +63,8 @@ export type NodeParams = {
 };
 
 export type NodeElementProps = {
-    node?: any,
+    node: Object,
+    className?: string,
     nodeDepth?: number,
     nodeIndex?: number,
 };

@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import type { NodeElementProps } from '../Tree/Tree';
+import type { NodeElementProps } from './Tree';
 
 const NodeExpander = ({ node, nodeDepth, nodeIndex, ...props }: NodeElementProps) => (
     <svg
