@@ -5,9 +5,7 @@ import PropTypes from 'prop-types';
 import memoize from 'memoize-one';
 import TreeNode from './TreeNode';
 import { FixedSizeList as List } from 'react-window';
-import NodeCollapser from './NodeCollapser';
 import NodeExpander from './NodeExpander';
-import NodeIcon from './NodeIcon';
 import NodeContent from './NodeContent';
 
 const getItemData = memoize(
@@ -23,13 +21,10 @@ const getItemData = memoize(
         nodeContentStyle,
         onNodeClick,
         onNodeCollapse,
-        onNodeIconClick,
         onNodeContextMenu,
         onNodeDoubleClick,
         onNodeExpand,
         nodeExpanderComponent,
-        nodeCollapserComponent,
-        nodeIconComponent,
         nodeContentComponent,
         ...additionalData
     ) => ({
@@ -44,13 +39,10 @@ const getItemData = memoize(
         nodeContentStyle,
         onNodeClick,
         onNodeCollapse,
-        onNodeIconClick,
         onNodeContextMenu,
         onNodeDoubleClick,
         onNodeExpand,
         nodeExpanderComponent,
-        nodeCollapserComponent,
-        nodeIconComponent,
         nodeContentComponent,
         additionalData,
     })
@@ -125,9 +117,6 @@ type TreeProps = {|
     /** On node collapse handler */
     onNodeCollapse?: nodeActionHandler,
 
-    /** On click Node Icon handler */
-    onNodeIconClick?: nodeActionHandler,
-
     /** On node context menu handler */
     onNodeContextMenu?: nodeActionHandler,
 
@@ -139,12 +128,6 @@ type TreeProps = {|
 
     /** Node Expander component */
     nodeExpanderComponent?: React.Component<NodeElementProps>,
-
-    /** Node Collapser component */
-    nodeCollapserComponent?: React.Component<NodeElementProps>,
-
-    /** Node icon component */
-    nodeIconComponent?: React.Component<NodeElementProps>,
 
     /** Node content component */
     nodeContentComponent?: React.Component<NodeElementProps>,
@@ -168,10 +151,8 @@ type TreeProps = {|
 export default class Tree extends React.PureComponent<TreeProps> {
     static defaultProps = {
         style: {},
-        levelPadding: 20,
+        levelPadding: 22,
         nodeExpanderComponent: NodeExpander,
-        nodeCollapserComponent: NodeCollapser,
-        nodeIconComponent: NodeIcon,
         nodeContentComponent: NodeContent,
         itemHeight: 25,
         initialScrollOffset: 0,
@@ -231,7 +212,6 @@ export default class Tree extends React.PureComponent<TreeProps> {
             nodeContentStyle,
             onNodeClick,
             onNodeCollapse,
-            onNodeIconClick,
             onNodeContextMenu,
             onNodeDoubleClick,
             onNodeExpand,
@@ -239,8 +219,6 @@ export default class Tree extends React.PureComponent<TreeProps> {
             hasChildItemsSelector,
             firstLevelItemsSelector,
             nodeExpanderComponent,
-            nodeCollapserComponent,
-            nodeIconComponent,
             nodeContentComponent,
             itemHeight,
             initialScrollOffset,
@@ -260,13 +238,10 @@ export default class Tree extends React.PureComponent<TreeProps> {
             nodeContentStyle,
             onNodeClick,
             onNodeCollapse,
-            onNodeIconClick,
             onNodeContextMenu,
             onNodeDoubleClick,
             onNodeExpand,
             nodeExpanderComponent,
-            nodeCollapserComponent,
-            nodeIconComponent,
             nodeContentComponent
         );
 

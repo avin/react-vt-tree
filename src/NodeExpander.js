@@ -3,15 +3,14 @@
 import * as React from 'react';
 import type { NodeElementProps } from './Tree';
 
-const NodeExpander = ({ node, nodeDepth, nodeIndex, ...props }: NodeElementProps) => (
-    <svg
-        x="0px"
-        y="0px"
-        viewBox="0 0 16 16"
-        enableBackground="new 0 0 16 16"
-        {...props}
-    >
-        <g>
+type Props = {
+    ...NodeElementProps,
+    isExpanded: boolean,
+};
+
+const NodeExpander = ({ node, nodeDepth, nodeIndex, isExpanded, ...props }: NodeElementProps) => (
+    <svg x="0px" y="0px" viewBox="0 0 16 16" enableBackground="new 0 0 16 16" {...props}>
+        <g style={{ transformOrigin: '50% 50%' }} transform={isExpanded && 'rotate(90)'}>
             <path
                 fillRule="evenodd"
                 clipRule="evenodd"

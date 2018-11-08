@@ -15,40 +15,20 @@ type TreeNodeProps = {|
 |};
 
 export default class TreeNode extends React.PureComponent<TreeNodeProps> {
-    handleClickIcon = (event: SyntheticMouseEvent<HTMLElement>) => {
+    handleClickExpander = (event: SyntheticMouseEvent<HTMLElement>, isExpanded) => {
         event.stopPropagation();
         const { data, index } = this.props;
-        const { items, depthList, onNodeIconClick } = data;
+        const { items, depthList, onNodeExpand, onNodeCollapse } = data;
         const node = items[index];
         const nodeDepth = depthList[index];
 
         const handlerParams = { node, nodeDepth, nodeIndex: index };
 
-        onNodeIconClick && onNodeIconClick(event, handlerParams);
-    };
-
-    handleClickCollapser = (event: SyntheticMouseEvent<HTMLElement>) => {
-        event.stopPropagation();
-        const { data, index } = this.props;
-        const { items, depthList, onNodeCollapse } = data;
-        const node = items[index];
-        const nodeDepth = depthList[index];
-
-        const handlerParams = { node, nodeDepth, nodeIndex: index };
-
-        onNodeCollapse && onNodeCollapse(event, handlerParams);
-    };
-
-    handleClickExpander = (event: SyntheticMouseEvent<HTMLElement>) => {
-        event.stopPropagation();
-        const { data, index } = this.props;
-        const { items, depthList, onNodeExpand } = data;
-        const node = items[index];
-        const nodeDepth = depthList[index];
-
-        const handlerParams = { node, nodeDepth, nodeIndex: index };
-
-        onNodeExpand && onNodeExpand(event, handlerParams);
+        if (isExpanded) {
+            onNodeCollapse && onNodeCollapse(event, handlerParams);
+        } else {
+            onNodeExpand && onNodeExpand(event, handlerParams);
+        }
     };
 
     renderExpander() {
@@ -57,45 +37,25 @@ export default class TreeNode extends React.PureComponent<TreeNodeProps> {
             items,
             depthList,
             isNodeExpandedSelector,
-            hasChildItemsSelector,
             nodeExpanderComponent: Expander,
-            nodeCollapserComponent: Collapser,
-            nodeIconComponent: Icon,
+            hasChildItemsSelector,
         } = data;
         const node = items[index];
         const nodeDepth = depthList[index];
 
         if (!hasChildItemsSelector(node)) {
-            return (
-                <Icon
-                    node={node}
-                    nodeDepth={nodeDepth}
-                    nodeIndex={index}
-                    onClick={this.handleClickIcon}
-                    className="VTTree__NodeIcon"
-                />
-            );
+            return;
         }
 
-        if (isNodeExpandedSelector(node)) {
-            return (
-                <Collapser
-                    node={node}
-                    nodeDepth={nodeDepth}
-                    nodeIndex={index}
-                    onClick={this.handleClickCollapser}
-                    className="VTTree__NodeIcon VTTree__NodeIcon--collapse"
-                />
-            );
-        }
-
+        const isExpanded = isNodeExpandedSelector(node);
         return (
             <Expander
+                isExpanded={isExpanded}
                 node={node}
                 nodeDepth={nodeDepth}
                 nodeIndex={index}
-                onClick={this.handleClickExpander}
-                className="VTTree__NodeIcon VTTree__NodeIcon--expand"
+                onClick={e => this.handleClickExpander(e, isExpanded)}
+                className="VTTree__NodeExpander"
             />
         );
     }

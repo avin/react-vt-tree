@@ -1,18 +1,14 @@
 import React from 'react';
 import treeData from './utils/flatTreeData';
 import SizeMe from '@avinlab/react-size-me';
-import {Tree} from '../src';
+import Tree from '../src';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faArrowDown, faFish } from '@fortawesome/free-solid-svg-icons';
 import SourceCode from './SourceCode';
 import classNames from 'classnames';
 
-const SimpleExpander = ({ node, nodeDepth, nodeIndex, ...props }) => <div {...props}>+</div>;
-const SimpleCollapser = ({ node, nodeDepth, nodeIndex, ...props }) => <div {...props}>-</div>;
-const SimpleIcon = ({ node, nodeDepth, nodeIndex, ...props }) => (
-    <div {...props}>
-        <b>➤</b>
-    </div>
+const SimpleExpander = ({ node, nodeDepth, nodeIndex, isExpanded, ...props }) => (
+    <div {...props}>{isExpanded ? '-' : '+'}</div>
 );
 
 export default class Styling extends React.Component {
@@ -168,10 +164,7 @@ export default class Styling extends React.Component {
                                         width={width}
                                         height={height}
                                         nodeExpanderComponent={SimpleExpander}
-                                        nodeCollapserComponent={SimpleCollapser}
-                                        nodeIconComponent={SimpleIcon}
                                         itemHeight={20}
-                                        levelPadding={15}
                                     />
                                 )}
                             </SizeMe>

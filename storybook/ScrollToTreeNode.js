@@ -1,7 +1,7 @@
 import React from 'react';
 import treeData from './utils/flatTreeData';
 import SizeMe from '@avinlab/react-size-me';
-import {Tree} from '../src';
+import Tree from '../src';
 import SourceCode from './SourceCode';
 
 export default class ScrollToTreeNode extends React.Component {
