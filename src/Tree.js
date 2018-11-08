@@ -1,19 +1,20 @@
 // @flow
 
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import memoize from 'memoize-one';
 import TreeNode from './TreeNode';
 import { FixedSizeList as List } from 'react-window';
 import NodeExpander from './NodeExpander';
-import NodeContent from './NodeContent';
+
+import type {NodeExpanderProps} from './NodeExpander';
 
 const getItemData = memoize(
     (
         items,
         depthList,
         isNodeExpandedSelector,
-        hasChildItemsSelector,
+        hasChildNodesSelector,
+        nodeContentSelector,
         levelPadding,
         nodeClassName,
         nodeStyle,
@@ -25,13 +26,13 @@ const getItemData = memoize(
         onNodeDoubleClick,
         onNodeExpand,
         nodeExpanderComponent,
-        nodeContentComponent,
         ...additionalData
     ) => ({
         items,
         depthList,
         isNodeExpandedSelector,
-        hasChildItemsSelector,
+        hasChildNodesSelector,
+        nodeContentSelector,
         levelPadding,
         nodeClassName,
         nodeStyle,
@@ -43,22 +44,14 @@ const getItemData = memoize(
         onNodeDoubleClick,
         onNodeExpand,
         nodeExpanderComponent,
-        nodeContentComponent,
         additionalData,
-    })
+    }),
 );
 
 export type NodeParams = {
     node: any,
     nodeDepth: number,
     nodeIndex: number,
-};
-
-export type NodeElementProps = {
-    node: Object,
-    className?: string,
-    nodeDepth?: number,
-    nodeIndex?: number,
 };
 
 type nodeActionHandler = (event: SyntheticMouseEvent<HTMLElement>, nodeParams: NodeParams) => void;
@@ -91,7 +84,10 @@ type TreeProps = {|
     nodeChildrenSelector: Function,
 
     /** Selector to determine children presence */
-    hasChildItemsSelector: Function,
+    hasChildNodesSelector: Function,
+
+    /** Node's content selector */
+    nodeContentSelector: Function,
 
     /** Selector to get first level items (with no parents) */
     firstLevelItemsSelector: Function,
@@ -103,13 +99,13 @@ type TreeProps = {|
     nodeClassName?: string | ((params: NodeParams) => string),
 
     /** Node optional style object or generate function */
-    nodeStyle?: PropTypes.object | ((params: NodeParams) => Object),
+    nodeStyle?: Object | ((params: NodeParams) => Object),
 
     /** Node content optional className string or generate function */
     nodeContentClassName?: string | ((params: NodeParams) => string),
 
     /** Node content optional style object or generate function */
-    nodeContentStyle?: PropTypes.object | ((params: NodeParams) => Object),
+    nodeContentStyle?: Object | ((params: NodeParams) => Object),
 
     /** On node click handler */
     onNodeClick?: nodeActionHandler,
@@ -127,10 +123,7 @@ type TreeProps = {|
     onNodeExpand?: nodeActionHandler,
 
     /** Node Expander component */
-    nodeExpanderComponent?: React.Component<NodeElementProps>,
-
-    /** Node content component */
-    nodeContentComponent?: React.Component<NodeElementProps>,
+    nodeExpanderComponent?: React.Component<NodeExpanderProps>,
 
     /** Height of tree row */
     itemHeight?: number,
@@ -145,7 +138,7 @@ type TreeProps = {|
      * Any other react-window list props
      * @see https://react-window.now.sh/#/api/FixedSizeList
      **/
-    listProps?: PropTypes.object,
+    listProps?: Object,
 |};
 
 export default class Tree extends React.PureComponent<TreeProps> {
@@ -153,7 +146,6 @@ export default class Tree extends React.PureComponent<TreeProps> {
         style: {},
         levelPadding: 22,
         nodeExpanderComponent: NodeExpander,
-        nodeContentComponent: NodeContent,
         itemHeight: 25,
         initialScrollOffset: 0,
         listProps: {},
@@ -216,10 +208,10 @@ export default class Tree extends React.PureComponent<TreeProps> {
             onNodeDoubleClick,
             onNodeExpand,
             isNodeExpandedSelector,
-            hasChildItemsSelector,
+            hasChildNodesSelector,
+            nodeContentSelector,
             firstLevelItemsSelector,
             nodeExpanderComponent,
-            nodeContentComponent,
             itemHeight,
             initialScrollOffset,
             listProps,
@@ -230,7 +222,8 @@ export default class Tree extends React.PureComponent<TreeProps> {
             items,
             depthList,
             isNodeExpandedSelector,
-            hasChildItemsSelector,
+            hasChildNodesSelector,
+            nodeContentSelector,
             levelPadding,
             nodeClassName,
             nodeStyle,
@@ -242,7 +235,6 @@ export default class Tree extends React.PureComponent<TreeProps> {
             onNodeDoubleClick,
             onNodeExpand,
             nodeExpanderComponent,
-            nodeContentComponent
         );
 
         return (

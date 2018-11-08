@@ -1,13 +1,10 @@
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import nodeResolve from 'rollup-plugin-node-resolve';
+import external from 'rollup-plugin-peer-deps-external';
 import pkg from './package.json';
 
 const input = './src/index.js';
-
-const external = id => {
-    return !id.startsWith('.') && !id.startsWith('/') && !id.startsWith('C:');
-};
 
 export default [
     {
@@ -15,13 +12,14 @@ export default [
         output: {
             file: pkg.main,
             format: 'cjs',
-            sourcemap: true
+            sourcemap: true,
         },
-        external,
         plugins: [
+            external(),
             babel({
                 runtimeHelpers: true,
-                plugins: ['@babel/transform-runtime'],
+                exclude: 'node_modules/**',
+                plugins: ['@babel/transform-runtime', 'flow-react-proptypes'],
             }),
             nodeResolve(),
             commonjs(),
@@ -33,13 +31,14 @@ export default [
         output: {
             file: pkg.module,
             format: 'esm',
-            sourcemap: true
+            sourcemap: true,
         },
-        external,
         plugins: [
+            external(),
             babel({
                 runtimeHelpers: true,
-                plugins: [['@babel/transform-runtime', { useESModules: true }]],
+                exclude: 'node_modules/**',
+                plugins: [['@babel/transform-runtime', { useESModules: true }], 'flow-react-proptypes'],
             }),
             nodeResolve(),
             commonjs(),

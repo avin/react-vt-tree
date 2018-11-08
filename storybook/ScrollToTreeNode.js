@@ -53,8 +53,9 @@ export default class ScrollToTreeNode extends React.Component {
                                 nodes={treeData.nodes}
                                 nodeChildrenSelector={nodeItem => this.getChildNodes(nodeItem)}
                                 firstLevelItemsSelector={items => items.filter(i => !i.parentId)}
-                                hasChildItemsSelector={nodeItem => nodeItem.childIds && nodeItem.childIds.length}
+                                hasChildNodesSelector={nodeItem => nodeItem.childIds && nodeItem.childIds.length}
                                 isNodeExpandedSelector={nodeItem => expandedNodes.has(nodeItem.id)}
+                                nodeContentSelector={node => node.content}
                                 additionalData={{ expandedNodes }}
                             />
                         )}

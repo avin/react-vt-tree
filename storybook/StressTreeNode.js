@@ -63,9 +63,10 @@ export default class StressTreeNode extends React.Component {
                                 onNodeExpand={this.handleNodeExpand}
                                 onNodeCollapse={this.handleNodeCollapse}
                                 nodeChildrenSelector={nodeItem => this.getChildNodes(nodeItem)}
-                                hasChildItemsSelector={nodeItem => nodeItem.children && nodeItem.children.length}
+                                hasChildNodesSelector={nodeItem => nodeItem.children && nodeItem.children.length}
                                 isNodeExpandedSelector={nodeItem => expandedNodes.has(nodeItem.id)}
                                 firstLevelItemsSelector={nodes => nodes}
+                                nodeContentSelector={node => node.content}
                                 additionalData={{ expandedNodes }}
                             />
                         )}

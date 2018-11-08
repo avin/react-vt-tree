@@ -15,14 +15,14 @@ type TreeNodeProps = {|
 |};
 
 export default class TreeNode extends React.PureComponent<TreeNodeProps> {
-    handleClickExpander = (event: SyntheticMouseEvent<HTMLElement>, isExpanded) => {
+    handleClickExpander = (event: SyntheticMouseEvent<HTMLElement>, isExpanded: boolean) => {
         event.stopPropagation();
         const { data, index } = this.props;
         const { items, depthList, onNodeExpand, onNodeCollapse } = data;
         const node = items[index];
         const nodeDepth = depthList[index];
 
-        const handlerParams = { node, nodeDepth, nodeIndex: index };
+        const handlerParams = { node, nodeDepth, isExpanded, nodeIndex: index };
 
         if (isExpanded) {
             onNodeCollapse && onNodeCollapse(event, handlerParams);
@@ -36,18 +36,18 @@ export default class TreeNode extends React.PureComponent<TreeNodeProps> {
         const {
             items,
             depthList,
-            isNodeExpandedSelector,
             nodeExpanderComponent: Expander,
-            hasChildItemsSelector,
+            hasChildNodesSelector,
+            isNodeExpandedSelector,
         } = data;
         const node = items[index];
         const nodeDepth = depthList[index];
+        const isExpanded = isNodeExpandedSelector(node);
 
-        if (!hasChildItemsSelector(node)) {
+        if (!hasChildNodesSelector(node)) {
             return;
         }
 
-        const isExpanded = isNodeExpandedSelector(node);
         return (
             <Expander
                 isExpanded={isExpanded}
@@ -63,7 +63,7 @@ export default class TreeNode extends React.PureComponent<TreeNodeProps> {
     renderContent() {
         const { data, index } = this.props;
 
-        const { items, depthList, nodeContentClassName, nodeContentStyle, nodeContentComponent: Content } = data;
+        const { items, depthList, nodeContentClassName, nodeContentStyle, nodeContentSelector } = data;
         const node = items[index];
         const nodeDepth = depthList[index];
 
@@ -86,13 +86,9 @@ export default class TreeNode extends React.PureComponent<TreeNodeProps> {
         }
 
         return (
-            <Content
-                node={node}
-                nodeDepth={nodeDepth}
-                nodeIndex={index}
-                style={optionalStyle}
-                className={classNames('VTTree__NodeContent', className)}
-            />
+            <div style={optionalStyle} className={classNames('VTTree__NodeContent', className)}>
+                {nodeContentSelector(node)}
+            </div>
         );
     }
 

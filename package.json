@@ -58,8 +58,8 @@
     },
     "dependencies": {
         "@babel/runtime": "^7.0.0",
+        "babel-plugin-flow-react-proptypes": "^24.1.2",
         "classnames": "^2.2.6",
-        "immutable": "^4.0.0-rc.12",
         "memoize-one": "^4.0.2",
         "react-window": "^1.2.4"
     },
@@ -92,6 +92,7 @@
         "eslint-config-prettier": "^3.1.0",
         "flow-bin": "^0.85.0",
         "gh-pages": "^1.1.0",
+        "immutable": "^4.0.0-rc.12",
         "lint-staged": "^7.0.5",
         "node-sass": "^4.10.0",
         "prettier": "^1.12.1",
@@ -106,6 +107,7 @@
         "rollup-plugin-babel": "^4.0.2",
         "rollup-plugin-commonjs": "^8.2.1",
         "rollup-plugin-node-resolve": "^3.0.2",
+        "rollup-plugin-peer-deps-external": "^2.2.0",
         "sass-loader": "^7.1.0"
     }
 }

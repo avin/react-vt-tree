@@ -8,8 +8,6 @@ import { action } from '@storybook/addon-actions';
 import SourceCode from './SourceCode';
 import * as  Immutable from 'immutable';
 
-const ContentComponent = ({node, nodeDepth, nodeIndex, ...props}) => <div {...props}>{node.get('content')}</div>
-
 export default class ImmutableJsData extends React.Component {
     state = {
         expandedNodes: new Set(),
@@ -71,13 +69,13 @@ export default class ImmutableJsData extends React.Component {
                                 onNodeCollapse={this.handleNodeCollapse}
                                 nodeChildrenSelector={node => this.getChildNodes(node)}
                                 firstLevelItemsSelector={nodes => nodes.filter(i => !i.get('parentId'))}
-                                hasChildItemsSelector={node => node.get('childIds', new Immutable.List()).size}
+                                hasChildNodesSelector={node => node.get('childIds', new Immutable.List()).size}
                                 isNodeExpandedSelector={node => expandedNodes.has(node.get('id'))}
                                 additionalData={{ expandedNodes }}
                                 onNodeClick={action('onNodeClick')}
                                 onNodeDoubleClick={action('onNodeDoubleClick')}
                                 onNodeContextMenu={action('onNodeContextMenu')}
-                                nodeContentComponent={ContentComponent}
+                                nodeContentSelector={node => node.get('content')}
                             />
                         )}
                     </SizeMe>

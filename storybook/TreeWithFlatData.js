@@ -67,8 +67,9 @@ export default class TreeWithFlatData extends React.Component {
                                 onNodeCollapse={this.handleNodeCollapse}
                                 nodeChildrenSelector={node => this.getChildNodes(node)}
                                 firstLevelItemsSelector={nodes => nodes.filter(i => !i.parentId)}
-                                hasChildItemsSelector={node => node.childIds && node.childIds.length}
+                                hasChildNodesSelector={node => node.childIds && node.childIds.length}
                                 isNodeExpandedSelector={node => expandedNodes.has(node.id)}
+                                nodeContentSelector={node => node.content}
                                 additionalData={{ expandedNodes }}
                                 onNodeClick={action('onNodeClick')}
                                 onNodeDoubleClick={action('onNodeDoubleClick')}

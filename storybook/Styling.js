@@ -3,9 +3,8 @@ import treeData from './utils/flatTreeData';
 import SizeMe from '@avinlab/react-size-me';
 import Tree from '../src';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight, faArrowDown, faFish } from '@fortawesome/free-solid-svg-icons';
+import { faFolder, faFolderOpen, faTag } from '@fortawesome/free-solid-svg-icons';
 import SourceCode from './SourceCode';
-import classNames from 'classnames';
 
 const SimpleExpander = ({ node, nodeDepth, nodeIndex, isExpanded, ...props }) => (
     <div {...props}>{isExpanded ? '-' : '+'}</div>
@@ -57,8 +56,9 @@ export default class Styling extends React.Component {
             onNodeCollapse: this.handleNodeCollapse,
             nodeChildrenSelector: nodeItem => this.getChildNodes(nodeItem),
             firstLevelItemsSelector: items => items.filter(i => !i.parentId),
-            hasChildItemsSelector: nodeItem => nodeItem.childIds && nodeItem.childIds.length,
+            hasChildNodesSelector: nodeItem => nodeItem.childIds && nodeItem.childIds.length,
             isNodeExpandedSelector: nodeItem => expandedNodes.has(nodeItem.id),
+            nodeContentSelector: node => node.content,
             additionalData: { expandedNodes },
         };
 
@@ -93,7 +93,7 @@ export default class Styling extends React.Component {
                     </div>
 
                     <div>
-                        <div className="header">Font-awesome icons</div>
+                        <div className="header">Content with icons</div>
                         <div className="treeContainer style2">
                             <SizeMe>
                                 {({ width, height }) => (
@@ -101,33 +101,24 @@ export default class Styling extends React.Component {
                                         {...mainProps}
                                         width={width}
                                         height={height}
-                                        nodeExpanderComponent={({
-                                            node,
-                                            nodeDepth,
-                                            nodeIndex,
-                                            className,
-                                            ...props
-                                        }) => (
-                                            <div {...props} className={classNames(className, 'nodeIcon')}>
-                                                <FontAwesomeIcon icon={faArrowRight} {...props} />
-                                            </div>
-                                        )}
-                                        nodeCollapserComponent={({
-                                            node,
-                                            nodeDepth,
-                                            nodeIndex,
-                                            className,
-                                            ...props
-                                        }) => (
-                                            <div {...props} className={classNames(className, 'nodeIcon')}>
-                                                <FontAwesomeIcon icon={faArrowDown} {...props} />
-                                            </div>
-                                        )}
-                                        nodeIconComponent={({ node, nodeDepth, nodeIndex, className, ...props }) => (
-                                            <div {...props} className={classNames(className, 'nodeIcon rotating')}>
-                                                <FontAwesomeIcon {...props} icon={faFish} />
-                                            </div>
-                                        )}
+                                        nodeContentSelector={node => {
+                                            const hasChildren = mainProps.hasChildNodesSelector(node);
+                                            const isNodeExpanded = mainProps.isNodeExpandedSelector(node);
+                                            let icon = faTag;
+                                            let iconColor = 'red';
+                                            if (hasChildren) {
+                                                icon = faFolder;
+                                                iconColor = 'green';
+                                                if (isNodeExpanded) {
+                                                    icon = faFolderOpen;
+                                                }
+                                            }
+                                            return (
+                                                <div>
+                                                    <FontAwesomeIcon icon={icon} color={iconColor} /> {node.content}
+                                                </div>
+                                            );
+                                        }}
                                     />
                                 )}
                             </SizeMe>
@@ -155,7 +146,7 @@ export default class Styling extends React.Component {
                     </div>
 
                     <div>
-                        <div className="header">Ultra simple</div>
+                        <div className="header">Custom expanders</div>
                         <div className="treeContainer style1">
                             <SizeMe>
                                 {({ width, height }) => (
