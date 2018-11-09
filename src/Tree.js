@@ -123,7 +123,7 @@ type TreeProps = {|
     onNodeExpand?: nodeActionHandler,
 
     /** Node Expander component */
-    nodeExpanderComponent?: React.Component<NodeExpanderProps>,
+    nodeExpanderComponent?: React.Component<NodeExpanderProps> | Function,
 
     /** Height of tree row */
     itemHeight?: number,
