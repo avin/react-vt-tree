@@ -70,7 +70,7 @@ export default class TreeWithFlatData extends React.Component {
                                 hasChildrenSelector={node => node.childIds && node.childIds.length}
                                 isNodeExpandedSelector={node => expandedNodes.has(node.id)}
                                 nodeContentSelector={node => node.content}
-                                additionalData={{ expandedNodes }}
+                                // additionalData={{ expandedNodes }}
                                 onNodeClick={action('onNodeClick')}
                                 onNodeDoubleClick={action('onNodeDoubleClick')}
                                 onNodeContextMenu={action('onNodeContextMenu')}

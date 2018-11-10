@@ -139,9 +139,7 @@ export default class Tree extends React.PureComponent<TreeProps> {
             initialScrollOffset,
             listProps,
         } = this.props;
-        console.time('_createList');
         const items = this._createList(firstLevelItemsSelector(nodes));
-        console.timeEnd('_createList');
 
         const itemData = getItemData(
             items,
