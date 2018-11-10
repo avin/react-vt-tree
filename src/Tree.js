@@ -6,10 +6,8 @@ import TreeNode from './TreeNode';
 import { FixedSizeList as List } from 'react-window';
 import NodeExpander from './NodeExpander';
 import NodeContent from './NodeContent';
-import type {
-    NodeParams,
-    TreeProps,
-} from './types';
+
+import type { NodeParams, TreeProps } from './types';
 
 const getItemData = memoize(
     (
@@ -48,7 +46,7 @@ const getItemData = memoize(
         nodeExpanderComponent,
         nodeContentComponent,
         additionalData,
-    }),
+    })
 );
 
 export default class Tree extends React.PureComponent<TreeProps> {
@@ -157,7 +155,7 @@ export default class Tree extends React.PureComponent<TreeProps> {
             onNodeDoubleClick,
             onNodeExpand,
             nodeExpanderComponent,
-            nodeContentComponent,
+            nodeContentComponent
         );
 
         return (

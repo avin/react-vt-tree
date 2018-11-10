@@ -1,9 +1,8 @@
 // @flow
 
 import * as React from 'react';
+
 import type { NodeExpanderProps } from './types';
-
-
 
 type State = {
     /** Animate expander on next change */

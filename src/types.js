@@ -49,6 +49,17 @@ export type NodeExpanderProps = {
     className?: string,
 };
 
+export type TreeNodeProps = {|
+    /** Item additional data */
+    data: Object,
+
+    /** Node row index */
+    index: number,
+
+    /** Node row specific style */
+    style: Object,
+|};
+
 export type TreeProps = {|
     /** Width of tree container */
     width: number,

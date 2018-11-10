@@ -1,6 +1,6 @@
 {
     "name": "react-vt-tree",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "...",
     "author": "Avin Grape <carcinogen75@gmail.com> (https://github.com/avin/)",
     "contributors": [
@@ -48,6 +48,11 @@
         "test": "cross-env CI=1 react-scripts test --env=jsdom",
         "test:watch": "react-scripts test --env=jsdom"
     },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
     "lint-staged": {
         "{website,src}/**/*.{js,json,css}": [
             "prettier --write",
@@ -58,6 +63,7 @@
     "dependencies": {
         "@babel/runtime": "^7.0.0",
         "classnames": "^2.2.6",
+        "husky": "^1.1.3",
         "memoize-one": "^4.0.2",
         "react-window": "^1.2.4"
     },

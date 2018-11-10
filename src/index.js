@@ -1,4 +1,4 @@
 // @flow
 
-import Tree from './Tree'
+import Tree from './Tree';
 export default Tree;

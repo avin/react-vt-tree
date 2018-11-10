@@ -3,16 +3,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
-type TreeNodeProps = {|
-    /** Item additional data */
-    data: Object,
-
-    /** Node row index */
-    index: number,
-
-    /** Node row specific style */
-    style: Object,
-|};
+import type { TreeNodeProps } from './types';
 
 export default class TreeNode extends React.PureComponent<TreeNodeProps> {
     handleClickExpander = (event: SyntheticMouseEvent<HTMLElement>) => {
