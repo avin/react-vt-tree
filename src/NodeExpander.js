@@ -1,19 +1,20 @@
 // @flow
 
 import * as React from 'react';
+import type { NodeExpanderProps } from './types';
 
-export type NodeExpanderProps = {
-    node: Object,
-    isExpanded: boolean,
-    nodeDepth: number,
-    nodeIndex: number,
-};
+
 
 type State = {
+    /** Animate expander on next change */
     withAnimation: boolean,
+
+    /** Previous node cache for comparing */
     prevNode?: any,
+
+    /** Previous IsExpanded cache for comparing */
     prevIsExpanded?: boolean,
-}
+};
 
 export default class NodeExpander extends React.Component<NodeExpanderProps, State> {
     state = {
@@ -21,24 +22,29 @@ export default class NodeExpander extends React.Component<NodeExpanderProps, Sta
     };
 
     static getDerivedStateFromProps(nextProps: Object, prevState: Object) {
-        const result = prevState.prevNode === nextProps.node && prevState.prevIsExpanded !== nextProps.isExpanded;
+        // Will animate only if the node is previous
+        const withAnimation =
+            prevState.prevNode === nextProps.node && prevState.prevIsExpanded !== nextProps.isExpanded;
 
-        const state = {
-            withAnimation: false,
+        return {
+            withAnimation,
             prevNode: nextProps.node,
             prevIsExpanded: nextProps.isExpanded,
         };
-        if (result) {
-            state.withAnimation = true;
-        }
-        return state;
     }
 
     render() {
-        const { node, nodeDepth, nodeIndex, isExpanded, ...props } = this.props;
+        const { onClick, className, isExpanded } = this.props;
         const { withAnimation } = this.state;
         return (
-            <svg x="0px" y="0px" viewBox="0 0 16 16" enableBackground="new 0 0 16 16" {...props}>
+            <svg
+                x="0px"
+                y="0px"
+                viewBox="0 0 16 16"
+                enableBackground="new 0 0 16 16"
+                onClick={onClick}
+                className={className}
+            >
                 <g
                     style={{
                         transformOrigin: '50% 50%',

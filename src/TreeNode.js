@@ -15,80 +15,65 @@ type TreeNodeProps = {|
 |};
 
 export default class TreeNode extends React.PureComponent<TreeNodeProps> {
-    handleClickExpander = (event: SyntheticMouseEvent<HTMLElement>, isExpanded: boolean) => {
+    handleClickExpander = (event: SyntheticMouseEvent<HTMLElement>) => {
         event.stopPropagation();
         const { data, index } = this.props;
-        const { items, depthList, onNodeExpand, onNodeCollapse } = data;
-        const node = items[index];
-        const nodeDepth = depthList[index];
+        const { items, onNodeExpand, onNodeCollapse } = data;
 
-        const handlerParams = { node, nodeDepth, isExpanded, nodeIndex: index };
-
-        if (isExpanded) {
-            onNodeCollapse && onNodeCollapse(event, handlerParams);
+        if (items[index].isExpanded) {
+            onNodeCollapse && onNodeCollapse(event, items[index]);
         } else {
-            onNodeExpand && onNodeExpand(event, handlerParams);
+            onNodeExpand && onNodeExpand(event, items[index]);
         }
     };
 
     renderExpander() {
         const { data, index } = this.props;
-        const {
-            items,
-            depthList,
-            nodeExpanderComponent: Expander,
-            hasChildNodesSelector,
-            isNodeExpandedSelector,
-        } = data;
-        const node = items[index];
-        const nodeDepth = depthList[index];
-        const isExpanded = isNodeExpandedSelector(node);
+        const { items, nodeExpanderComponent: Expander } = data;
 
-        if (!hasChildNodesSelector(node)) {
+        if (!items[index].hasChildren) {
             return;
         }
 
-        return (
-            <Expander
-                isExpanded={isExpanded}
-                node={node}
-                nodeDepth={nodeDepth}
-                nodeIndex={index}
-                onClick={e => this.handleClickExpander(e, isExpanded)}
-                className="VTTree__NodeExpander"
-            />
-        );
+        return <Expander {...items[index]} onClick={this.handleClickExpander} className="VTTree__NodeExpander" />;
     }
 
     renderContent() {
         const { data, index } = this.props;
 
-        const { items, depthList, nodeContentClassName, nodeContentStyle, nodeContentSelector } = data;
-        const node = items[index];
-        const nodeDepth = depthList[index];
+        const {
+            items,
+            nodeContentClassName,
+            nodeContentStyle,
+            nodeContentSelector,
+            nodeContentComponent: NodeContentComponent,
+        } = data;
 
-        let className;
+        let optionalClassName;
         if (nodeContentClassName) {
             if (typeof nodeContentClassName === 'function') {
-                className = nodeContentClassName({ node, nodeDepth, nodeIndex: index });
+                optionalClassName = nodeContentClassName(items[index]);
             } else {
-                className = nodeContentClassName;
+                optionalClassName = nodeContentClassName;
             }
         }
 
         let optionalStyle = {};
         if (nodeContentStyle) {
             if (typeof nodeContentStyle === 'function') {
-                optionalStyle = nodeContentStyle({ node, nodeDepth, nodeIndex: index }) || {};
+                optionalStyle = nodeContentStyle(items[index]) || {};
             } else {
                 optionalStyle = nodeContentStyle;
             }
         }
 
+        const style = optionalStyle;
+        const className = classNames('VTTree__NodeContent', optionalClassName);
+
         return (
-            <div style={optionalStyle} className={classNames('VTTree__NodeContent', className)}>
-                {nodeContentSelector(node)}
-            </div>
+            <NodeContentComponent style={style} className={className} {...items[index]}>
+                {nodeContentSelector(items[index].node)}
+            </NodeContentComponent>
         );
     }
 
@@ -97,7 +82,6 @@ export default class TreeNode extends React.PureComponent<TreeNodeProps> {
 
         const {
             items,
-            depthList,
             levelPadding,
             nodeClassName,
             nodeStyle,
@@ -105,13 +89,11 @@ export default class TreeNode extends React.PureComponent<TreeNodeProps> {
             onNodeDoubleClick,
             onNodeContextMenu,
         } = data;
-        const node = items[index];
-        const nodeDepth = depthList[index];
 
         let className;
         if (nodeClassName) {
             if (typeof nodeClassName === 'function') {
-                className = nodeClassName({ node, nodeDepth, nodeIndex: index });
+                className = nodeClassName(items[index]);
             } else {
                 className = nodeClassName;
             }
@@ -120,24 +102,21 @@ export default class TreeNode extends React.PureComponent<TreeNodeProps> {
         let optionalStyle = {};
         if (nodeStyle) {
             if (typeof nodeStyle === 'function') {
-                optionalStyle = nodeStyle({ node, nodeDepth, nodeIndex: index }) || {};
+                optionalStyle = nodeStyle(items[index]) || {};
             } else {
                 optionalStyle = nodeStyle;
             }
         }
 
-        const handlerParams = { node, nodeDepth, nodeIndex: index };
-
         return (
             <div
                 className={classNames('VTTree__Node', className)}
-                style={{ ...optionalStyle, ...style, paddingLeft: levelPadding * nodeDepth }}
-                onClick={onNodeClick && (event => onNodeClick(event, handlerParams))}
-                onDoubleClick={onNodeDoubleClick && (event => onNodeDoubleClick(event, handlerParams))}
-                onContextMenu={onNodeContextMenu && (event => onNodeContextMenu(event, handlerParams))}
+                style={{ ...optionalStyle, ...style, paddingLeft: levelPadding * items[index].depth }}
+                onClick={onNodeClick && (event => onNodeClick(event, items[index]))}
+                onDoubleClick={onNodeDoubleClick && (event => onNodeDoubleClick(event, items[index]))}
+                onContextMenu={onNodeContextMenu && (event => onNodeContextMenu(event, items[index]))}
             >
                 {this.renderExpander()}
-
                 {this.renderContent()}
             </div>
         );

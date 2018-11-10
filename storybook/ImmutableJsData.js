@@ -69,7 +69,7 @@ export default class ImmutableJsData extends React.Component {
                                 onNodeCollapse={this.handleNodeCollapse}
                                 nodeChildrenSelector={node => this.getChildNodes(node)}
                                 firstLevelItemsSelector={nodes => nodes.filter(i => !i.get('parentId'))}
-                                hasChildNodesSelector={node => node.get('childIds', new Immutable.List()).size}
+                                hasChildrenSelector={node => node.get('childIds', new Immutable.List()).size}
                                 isNodeExpandedSelector={node => expandedNodes.has(node.get('id'))}
                                 additionalData={{ expandedNodes }}
                                 onNodeClick={action('onNodeClick')}

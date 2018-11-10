@@ -23,7 +23,7 @@ export default class ScrollToTreeNode extends React.Component {
 
     handleScrollToNode = () => {
         const { scrollToNodeContent } = this.state;
-        this.tree.scrollToNode(i => i.content === scrollToNodeContent);
+        this.tree.scrollToNode(i => i.node.content === scrollToNodeContent);
 
         this.setState({
             scrollToNodeContent: treeData.nodes[Math.floor(Math.random() * treeData.nodes.length)].content,
@@ -53,7 +53,7 @@ export default class ScrollToTreeNode extends React.Component {
                                 nodes={treeData.nodes}
                                 nodeChildrenSelector={nodeItem => this.getChildNodes(nodeItem)}
                                 firstLevelItemsSelector={items => items.filter(i => !i.parentId)}
-                                hasChildNodesSelector={nodeItem => nodeItem.childIds && nodeItem.childIds.length}
+                                hasChildrenSelector={nodeItem => nodeItem.childIds && nodeItem.childIds.length}
                                 isNodeExpandedSelector={nodeItem => expandedNodes.has(nodeItem.id)}
                                 nodeContentSelector={node => node.content}
                                 additionalData={{ expandedNodes }}

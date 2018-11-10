@@ -1,0 +1,214 @@
+= react-vt-tree
+
+> Super fast virtulized tree of your dreams!
+
+image:https://img.shields.io/npm/v/react-vt-tree.svg?style=for-the-badge[NPM registry,link=https://yarnpkg.com/en/package/react-vt-tree]
+image:https://img.shields.io/badge/license-mit-red.svg?style=for-the-badge[NPM license]
+
+== Demo
+
+Here is an link:https://avin.github.io/react-vt-tree[examples page]
+
+== Install
+
+```bash
+# Yarn
+yarn add react-vt-tree
+
+# NPM
+npm install --save react-vt-tree
+```
+
+== Features
+
+* :zap: Super mega fast! It's based on super fast virtulized-lists library link:https://github.com/bvaughn/react-window[react-window]
+* :art: Super customizable! Any components, any classNames, any styles for _ALL_ included elements!
+* :hamburger: Content structure **INDEPENDENT**! Write your personal selectors to get children and expanded statuses! You
+  can use flat or structured data arrays or link:https://facebook.github.io/immutable-js[Immutable.js] iterable constructions.
+
+== Usage
+
+See source code of examples link:./storybook[here]
+
+== API
+
+=== NodeParams properties
+
+[cols="2,2,5",options="header"]
+|===========================================
+| Property    | Type    | Description
+| node        | any     | Node data object
+| depth       | number  | Depth of node
+| hasChildren | boolean | Has children sign
+| isExpanded  | boolean | Is expanded sign
+| index       | number  | Index of node
+|===========================================
+
+=== <Tree /> properties
+
+[cols="2,2,^2,5",options="header"]
+|===========================================
+| Property
+| Type
+| Required?
+| Description
+
+| width
+| Number
+| ✓
+| Width of tree container.
+
+| height
+| Number
+| ✓
+| Height of tree container.
+
+| nodes
+| Iterable object
+| ✓
+| Tree node-items.
+
+| isNodeExpandedSelector
+| Function
+| ✓
+| Selector to get expanded status of node item.
+
+| nodeChildrenSelector
+| Function
+| ✓
+| Selector to get child-nodes.
+
+| hasChildrenSelector
+| Function
+|
+| Selector to determine children presence. You can skip this selector, so the result
+of `nodeChildrenSelector` will be used, but some times it's better to use
+if `nodeChildrenSelector` is slow to get more performance boost
+
+| nodeContentSelector
+| Function
+| ✓
+| Node's content selector.
+
+| firstLevelItemsSelector
+| Function
+| ✓
+| Selector to get first level items (with no parents).
+
+| levelPadding
+| number
+|
+| Padding-left of 1x depth level. Default: `22`
+
+| nodeClassName
+| string _or_ Function
+|
+| Node optional className string or generate function. Function arguments: `(NodeParams)`
+
+| nodeStyle
+| Object _or_ Function
+|
+| Node optional style object or generate function. Function arguments: `(NodeParams)`
+
+| nodeContentClassName
+| string _or_ Function
+|
+| Node content optional className string or generate function. Function arguments: `(NodeParams)`
+
+| nodeContentStyle
+| Object _or_ Function
+|
+| Node content optional style object or generate function. Function arguments: `(NodeParams)`
+
+| onNodeClick
+| Function
+|
+| On node click handler. Function arguments: `(NodeParams)`
+
+| onNodeCollapse
+| Function
+|
+| On node collapse handler. Function arguments: `(NodeParams)`
+
+| onNodeContextMenu
+| Function
+|
+| On node context menu handler. Function arguments: `(NodeParams)`
+
+| onNodeDoubleClick
+| Function
+|
+| On node double click handler. Function arguments: `(NodeParams)`
+
+| onNodeExpand
+| Function
+|
+| On node expand handler. Function arguments: `(NodeParams)`
+
+| nodeExpanderComponent
+| Function
+|
+| Node Expander component.
+
+| nodeContentComponent
+| Function
+|
+| Node content component.
+
+| itemHeight
+| number
+|
+| Height of tree row. Default: `25`
+
+| onScroll
+| Function
+|
+| On scroll tree list handler.
+
+| className
+| string
+|
+| Optional class name tree-list.
+
+| style
+| Object
+|
+| Optional CSS style object for tree-list.
+
+| initialScrollOffset
+| number
+|
+| Scroll offset for initial tree list render.
+
+| listProps
+| Object
+|
+| Any other react-window list props.
+
+See https://react-window.now.sh/#/api/FixedSizeList for more info.
+
+|===========================================
+
+=== Properties passing to nodeExpanderComponent
+
+[cols="2,2,^2,5",options="header"]
+|===========================================
+| Property      | Type     | Required? | Description
+4+| ... Includes all fields of `NodeParams`
+| onClick       | Function |           | Expand/collapse handler
+| className     | string   |           | Expander default className
+|===========================================
+
+=== Properties passing to nodeContentComponent
+
+[cols="2,2,^2,5",options="header"]
+|===========================================
+| Property      | Type   | Required? | Description
+4+| ... Includes all fields of `NodeParams`
+| style         | Object |           | Style object as a result of `nodeContentStyle` `<Tree />` property
+| className     | string |           | ClassName string as a result of `nodeContentClassName` `<Tree />` property
+|===========================================
+
+== License
+
+MIT © link:https://github.com/avin[avin]
