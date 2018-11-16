@@ -1,18 +1,18 @@
 let nounce = 1;
 function generateNodes(depth, parentId) {
-    let items = [];
+    let nodes = [];
     for (let i = 0; i < 10; i += 1) {
         const id = 'i' + nounce;
-        items.push({
+        nodes.push({
             id,
             content: `Node ${nounce++}`,
             parentId,
         });
         if (depth < 3) {
-            items = items.concat(generateNodes(depth + 1, id));
+            nodes = nodes.concat(generateNodes(depth + 1, id));
         }
     }
-    return items;
+    return nodes;
 }
 
 const nodes = generateNodes(0);

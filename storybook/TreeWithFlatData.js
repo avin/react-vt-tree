@@ -51,7 +51,7 @@ export default class TreeWithFlatData extends React.Component {
             <div>
                 <SourceCode>TreeWithFlatData.js</SourceCode>
                 <div>
-                    Tree size: <b>{treeData.nodes.length}</b> items &nbsp;
+                    Tree size: <b>{treeData.nodes.length}</b> nodes &nbsp;
                     <button onClick={this.handleExpandAll}>Expand all</button> &nbsp;
                     <button onClick={this.handleCollapseAll}>Collapse all</button>
                 </div>
@@ -66,7 +66,7 @@ export default class TreeWithFlatData extends React.Component {
                                 onNodeExpand={this.handleNodeExpand}
                                 onNodeCollapse={this.handleNodeCollapse}
                                 nodeChildrenSelector={node => this.getChildNodes(node)}
-                                firstLevelItemsSelector={nodes => nodes.filter(i => !i.parentId)}
+                                firstLevelNodesSelector={nodes => nodes.filter(i => !i.parentId)}
                                 hasChildrenSelector={node => node.childIds && node.childIds.length}
                                 isNodeExpandedSelector={node => expandedNodes.has(node.id)}
                                 nodeContentSelector={node => node.content}

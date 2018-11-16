@@ -130,14 +130,14 @@ export default class Tree extends React.PureComponent<TreeProps> {
             isNodeExpandedSelector,
             hasChildrenSelector,
             nodeContentSelector,
-            firstLevelItemsSelector,
+            firstLevelNodesSelector,
             nodeExpanderComponent,
             nodeContentComponent,
             itemHeight,
             initialScrollOffset,
             listProps,
         } = this.props;
-        const items = this._createList(firstLevelItemsSelector(nodes));
+        const items = this._createList(firstLevelNodesSelector(nodes));
 
         const itemData = getItemData(
             items,

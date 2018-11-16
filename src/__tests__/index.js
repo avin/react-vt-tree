@@ -24,7 +24,7 @@ let data = [
 const treeProps = {
     height: 200,
     width: 400,
-    firstLevelItemsSelector: nodes => nodes.filter(node => !node.parentId),
+    firstLevelNodesSelector: nodes => nodes.filter(node => !node.parentId),
     isNodeExpandedSelector: node => true,
     nodeContentSelector: node => node.content,
     nodeChildrenSelector: node => data.filter(i => i.parentId === node.id),

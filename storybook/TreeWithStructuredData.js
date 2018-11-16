@@ -50,7 +50,7 @@ export default class TreeWithStructuredData extends React.Component {
             <div>
                 <SourceCode>TreeWithStructuredData.js</SourceCode>
                 <div>
-                    Tree size: <b>{treeNodesSize}</b> items &nbsp;
+                    Tree size: <b>{treeNodesSize}</b> nodes &nbsp;
                     <button onClick={this.handleExpandAll}>Expand all</button> &nbsp;
                     <button onClick={this.handleCollapseAll}>Collapse all</button>
                 </div>
@@ -67,7 +67,7 @@ export default class TreeWithStructuredData extends React.Component {
                                 nodeChildrenSelector={nodeItem => this.getChildNodes(nodeItem)}
                                 hasChildrenSelector={nodeItem => nodeItem.children && nodeItem.children.length}
                                 isNodeExpandedSelector={nodeItem => expandedNodes.has(nodeItem.id)}
-                                firstLevelItemsSelector={nodes => nodes}
+                                firstLevelNodesSelector={nodes => nodes}
                                 nodeContentSelector={node => node.content}
                                 additionalData={{ expandedNodes }}
                             />

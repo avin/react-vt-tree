@@ -53,7 +53,7 @@ export default class Styling extends React.Component {
             onNodeExpand: this.handleNodeExpand,
             onNodeCollapse: this.handleNodeCollapse,
             nodeChildrenSelector: nodeItem => this.getChildNodes(nodeItem),
-            firstLevelItemsSelector: items => items.filter(i => !i.parentId),
+            firstLevelNodesSelector: nodes => nodes.filter(i => !i.parentId),
             hasChildrenSelector: nodeItem => nodeItem.childIds && nodeItem.childIds.length,
             isNodeExpandedSelector: nodeItem => expandedNodes.has(nodeItem.id),
             nodeContentSelector: node => node.content,
@@ -64,7 +64,7 @@ export default class Styling extends React.Component {
             <div>
                 <SourceCode>Styling.js</SourceCode>
                 <div>
-                    Tree size: <b>{treeData.nodes.length}</b> items &nbsp;
+                    Tree size: <b>{treeData.nodes.length}</b> nodes &nbsp;
                     <button onClick={this.handleExpandAll}>Expand all</button> &nbsp;
                     <button onClick={this.handleCollapseAll}>Collapse all</button>
                 </div>

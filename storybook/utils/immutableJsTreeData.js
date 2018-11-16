@@ -2,10 +2,10 @@ import * as Immutable from 'immutable';
 
 let nounce = 1;
 function generateNodes(depth, parentId) {
-    let items = new Immutable.List();
+    let nodes = new Immutable.List();
     for (let i = 0; i < 10; i += 1) {
         const id = 'i' + nounce;
-        items = items.push(
+        nodes = nodes.push(
             new Immutable.Map({
                 id,
                 content: `Node ${nounce++}`,
@@ -13,10 +13,10 @@ function generateNodes(depth, parentId) {
             })
         );
         if (depth < 3) {
-            items = items.concat(generateNodes(depth + 1, id));
+            nodes = nodes.concat(generateNodes(depth + 1, id));
         }
     }
-    return items;
+    return nodes;
 }
 
 let nodes = generateNodes(0);

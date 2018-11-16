@@ -48,7 +48,7 @@ export default class StressTreeNode extends React.Component {
             <div>
                 <SourceCode>StressTreeNode.js</SourceCode>
                 <div>
-                    Tree size: <b style={{color: '#F00'}}>{treeNodesSize}</b> items &nbsp;
+                    Tree size: <b style={{color: '#F00'}}>{treeNodesSize}</b> nodes &nbsp;
                     <button onClick={this.handleExpandAll}>Expand all</button> &nbsp;
                     <button onClick={this.handleCollapseAll}>Collapse all</button>
                 </div>
@@ -65,7 +65,7 @@ export default class StressTreeNode extends React.Component {
                                 nodeChildrenSelector={nodeItem => this.getChildNodes(nodeItem)}
                                 hasChildrenSelector={nodeItem => nodeItem.children && nodeItem.children.length}
                                 isNodeExpandedSelector={nodeItem => expandedNodes.has(nodeItem.id)}
-                                firstLevelItemsSelector={nodes => nodes}
+                                firstLevelNodesSelector={nodes => nodes}
                                 nodeContentSelector={node => node.content}
                                 additionalData={{ expandedNodes }}
                             />

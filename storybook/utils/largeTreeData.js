@@ -1,15 +1,15 @@
 let nounce = 1;
 function generateNodes(depth) {
-    let items = [];
+    let nodes = [];
     for (let i = 0; i < 25; i += 1) {
         const id = String(nounce);
-        items.push({
+        nodes.push({
             id,
             content: nounce++,
             children: depth < 3 && generateNodes(depth + 1, id),
         });
     }
-    return items;
+    return nodes;
 }
 
 const nodes = generateNodes(0);

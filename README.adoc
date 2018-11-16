@@ -90,7 +90,7 @@ if `nodeChildrenSelector` is slow to get more performance boost
 | ✓
 | Node's content selector.
 
-| firstLevelItemsSelector
+| firstLevelNodesSelector
 | Function
 | ✓
 | Selector to get first level items (with no parents).

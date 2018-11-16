@@ -53,7 +53,7 @@ export default class ImmutableJsData extends React.Component {
             <div>
                 <SourceCode>TreeWithFlatData.js</SourceCode>
                 <div>
-                    Tree size: <b>{treeData.nodes.size}</b> items &nbsp;
+                    Tree size: <b>{treeData.nodes.size}</b> nodes &nbsp;
                     <button onClick={this.handleExpandAll}>Expand all</button> &nbsp;
                     <button onClick={this.handleCollapseAll}>Collapse all</button>
                 </div>
@@ -68,7 +68,7 @@ export default class ImmutableJsData extends React.Component {
                                 onNodeExpand={this.handleNodeExpand}
                                 onNodeCollapse={this.handleNodeCollapse}
                                 nodeChildrenSelector={node => this.getChildNodes(node)}
-                                firstLevelItemsSelector={nodes => nodes.filter(i => !i.get('parentId'))}
+                                firstLevelNodesSelector={nodes => nodes.filter(i => !i.get('parentId'))}
                                 hasChildrenSelector={node => node.get('childIds', new Immutable.List()).size}
                                 isNodeExpandedSelector={node => expandedNodes.has(node.get('id'))}
                                 additionalData={{ expandedNodes }}

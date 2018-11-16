@@ -89,7 +89,7 @@ export type TreeProps = {|
     nodeContentSelector: Function,
 
     /** Selector to get first level items (with no parents) */
-    firstLevelItemsSelector: Function,
+    firstLevelNodesSelector: Function,
 
     /** Padding of 1x depth level */
     levelPadding?: number,
