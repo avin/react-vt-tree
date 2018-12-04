@@ -36,12 +36,13 @@ See source code of examples link:./storybook[here]
 
 [cols="2,2,5",options="header"]
 |===========================================
-| Property    | Type    | Description
-| node        | any     | Node data object
-| depth       | number  | Depth of node
-| hasChildren | boolean | Has children sign
-| isExpanded  | boolean | Is expanded sign
-| index       | number  | Index of node
+| Property             | Type    | Description
+| node                 | any     | Node data object
+| depth                | number  | Depth of node
+| hasChildren          | boolean | Has children sign
+| isExpanded           | boolean | Is expanded sign
+| index                | number  | Index of node
+| additionalData       | Any     | Additional data
 |===========================================
 
 === <Tree /> properties
@@ -183,9 +184,12 @@ if `nodeChildrenSelector` is slow to get more performance boost
 | listProps
 | Object
 |
-| Any other react-window list props.
+| Any other react-window list props. See https://react-window.now.sh/#/api/FixedSizeList for more info.
 
-See https://react-window.now.sh/#/api/FixedSizeList for more info.
+| additionalData
+| Any
+|
+| Additional data for `NodeParams`;
 
 |===========================================
 

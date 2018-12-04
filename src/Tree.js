@@ -27,7 +27,7 @@ const getItemData = memoize(
         onNodeExpand,
         nodeExpanderComponent,
         nodeContentComponent,
-        ...additionalData
+        additionalData
     ) => ({
         items,
         isNodeExpandedSelector,
@@ -136,6 +136,7 @@ export default class Tree extends React.PureComponent<TreeProps> {
             itemHeight,
             initialScrollOffset,
             listProps,
+            additionalData,
         } = this.props;
         const items = this._createList(firstLevelNodesSelector(nodes));
 
@@ -155,7 +156,8 @@ export default class Tree extends React.PureComponent<TreeProps> {
             onNodeDoubleClick,
             onNodeExpand,
             nodeExpanderComponent,
-            nodeContentComponent
+            nodeContentComponent,
+            additionalData
         );
 
         return (

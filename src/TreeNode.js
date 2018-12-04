@@ -6,34 +6,45 @@ import classNames from 'classnames';
 import type { TreeNodeProps } from './types';
 
 export default class TreeNode extends React.PureComponent<TreeNodeProps> {
+    getNodeParams = index => {
+        const { data, additionalData } = this.props;
+        const { items } = data;
+        return Object.assign(items[index], { additionalData });
+    };
+
     handleClickExpander = (event: SyntheticMouseEvent<HTMLElement>) => {
         event.stopPropagation();
         const { data, index } = this.props;
-        const { items, onNodeExpand, onNodeCollapse } = data;
+        const { onNodeExpand, onNodeCollapse } = data;
 
-        if (items[index].isExpanded) {
-            onNodeCollapse && onNodeCollapse(event, items[index]);
+        if (this.getNodeParams(index).isExpanded) {
+            onNodeCollapse && onNodeCollapse(event, this.getNodeParams(index));
         } else {
-            onNodeExpand && onNodeExpand(event, items[index]);
+            onNodeExpand && onNodeExpand(event, this.getNodeParams(index));
         }
     };
 
     renderExpander() {
         const { data, index } = this.props;
-        const { items, nodeExpanderComponent: Expander } = data;
+        const { nodeExpanderComponent: Expander } = data;
 
-        if (!items[index].hasChildren) {
+        if (!this.getNodeParams(index).hasChildren) {
             return;
         }
 
-        return <Expander {...items[index]} onClick={this.handleClickExpander} className="VTTree__NodeExpander" />;
+        return (
+            <Expander
+                {...this.getNodeParams(index)}
+                onClick={this.handleClickExpander}
+                className="VTTree__NodeExpander"
+            />
+        );
     }
 
     renderContent() {
         const { data, index } = this.props;
 
         const {
-            items,
             nodeContentClassName,
             nodeContentStyle,
             nodeContentSelector,
@@ -43,7 +54,7 @@ export default class TreeNode extends React.PureComponent<TreeNodeProps> {
         let optionalClassName;
         if (nodeContentClassName) {
             if (typeof nodeContentClassName === 'function') {
-                optionalClassName = nodeContentClassName(items[index]);
+                optionalClassName = nodeContentClassName(this.getNodeParams(index));
             } else {
                 optionalClassName = nodeContentClassName;
             }
@@ -52,7 +63,7 @@ export default class TreeNode extends React.PureComponent<TreeNodeProps> {
         let optionalStyle = {};
         if (nodeContentStyle) {
             if (typeof nodeContentStyle === 'function') {
-                optionalStyle = nodeContentStyle(items[index]) || {};
+                optionalStyle = nodeContentStyle(this.getNodeParams(index)) || {};
             } else {
                 optionalStyle = nodeContentStyle;
             }
@@ -62,8 +73,8 @@ export default class TreeNode extends React.PureComponent<TreeNodeProps> {
         const className = classNames('VTTree__NodeContent', optionalClassName);
 
         return (
-            <NodeContentComponent style={style} className={className} {...items[index]}>
-                {nodeContentSelector(items[index].node)}
+            <NodeContentComponent style={style} className={className} {...this.getNodeParams(index)}>
+                {nodeContentSelector(this.getNodeParams(index).node)}
             </NodeContentComponent>
         );
     }
@@ -71,20 +82,12 @@ export default class TreeNode extends React.PureComponent<TreeNodeProps> {
     render() {
         const { data, index, style } = this.props;
 
-        const {
-            items,
-            levelPadding,
-            nodeClassName,
-            nodeStyle,
-            onNodeClick,
-            onNodeDoubleClick,
-            onNodeContextMenu,
-        } = data;
+        const { levelPadding, nodeClassName, nodeStyle, onNodeClick, onNodeDoubleClick, onNodeContextMenu } = data;
 
         let className;
         if (nodeClassName) {
             if (typeof nodeClassName === 'function') {
-                className = nodeClassName(items[index]);
+                className = nodeClassName(this.getNodeParams(index));
             } else {
                 className = nodeClassName;
             }
@@ -93,7 +96,7 @@ export default class TreeNode extends React.PureComponent<TreeNodeProps> {
         let optionalStyle = {};
         if (nodeStyle) {
             if (typeof nodeStyle === 'function') {
-                optionalStyle = nodeStyle(items[index]) || {};
+                optionalStyle = nodeStyle(this.getNodeParams(index)) || {};
             } else {
                 optionalStyle = nodeStyle;
             }
@@ -102,10 +105,10 @@ export default class TreeNode extends React.PureComponent<TreeNodeProps> {
         return (
             <div
                 className={classNames('VTTree__Node', className)}
-                style={{ ...optionalStyle, ...style, paddingLeft: levelPadding * items[index].depth }}
-                onClick={onNodeClick && (event => onNodeClick(event, items[index]))}
-                onDoubleClick={onNodeDoubleClick && (event => onNodeDoubleClick(event, items[index]))}
-                onContextMenu={onNodeContextMenu && (event => onNodeContextMenu(event, items[index]))}
+                style={{ ...optionalStyle, ...style, paddingLeft: levelPadding * this.getNodeParams(index).depth }}
+                onClick={onNodeClick && (event => onNodeClick(event, this.getNodeParams(index)))}
+                onDoubleClick={onNodeDoubleClick && (event => onNodeDoubleClick(event, this.getNodeParams(index)))}
+                onContextMenu={onNodeContextMenu && (event => onNodeContextMenu(event, this.getNodeParams(index)))}
             >
                 {this.renderExpander()}
                 {this.renderContent()}
