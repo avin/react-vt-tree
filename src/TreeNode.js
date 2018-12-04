@@ -7,8 +7,8 @@ import type { TreeNodeProps } from './types';
 
 export default class TreeNode extends React.PureComponent<TreeNodeProps> {
     getNodeParams = index => {
-        const { data, additionalData } = this.props;
-        const { items } = data;
+        const { data } = this.props;
+        const { items, additionalData } = data;
         return Object.assign(items[index], { additionalData });
     };
 
