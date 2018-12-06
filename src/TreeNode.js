@@ -26,10 +26,10 @@ export default class TreeNode extends React.PureComponent<TreeNodeProps> {
 
     renderExpander() {
         const { data, index } = this.props;
-        const { nodeExpanderComponent: Expander } = data;
+        const { nodeExpanderComponent: Expander, noExpanderSpaceWidth } = data;
 
         if (!this.getNodeParams(index).hasChildren) {
-            return;
+            return <span style={{ width: noExpanderSpaceWidth }} />;
         }
 
         return (

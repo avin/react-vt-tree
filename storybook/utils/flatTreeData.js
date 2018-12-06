@@ -8,7 +8,7 @@ function generateNodes(depth, parentId) {
             content: `Node ${nounce++}`,
             parentId,
         });
-        if (depth < 3) {
+        if (depth < 3 && i < 8) {
             nodes = nodes.concat(generateNodes(depth + 1, id));
         }
     }

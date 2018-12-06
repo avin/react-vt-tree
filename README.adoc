@@ -101,6 +101,11 @@ if `nodeChildrenSelector` is slow to get more performance boost
 |
 | Padding-left of 1x depth level. Default: `22`
 
+| noExpanderSpaceWidth
+| number
+|
+| Blank space width when there is no expander. Default: `25`
+
 | nodeClassName
 | string _or_ Function
 |
