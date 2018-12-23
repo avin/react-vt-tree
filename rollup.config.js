@@ -5,26 +5,43 @@ import external from 'rollup-plugin-peer-deps-external';
 import copy from 'rollup-plugin-copy';
 import pkg from './package.json';
 
+const input = './src/index.js';
+
 export default [
     {
-        input: './src/index.js',
+        input,
         output: {
-            file: pkg.module,
-            format: 'esm',
-            sourcemap: true,
+            file: pkg.main,
+            format: 'cjs',
         },
+        external,
         plugins: [
-            external(),
             babel({
                 runtimeHelpers: true,
-                exclude: 'node_modules/**',
-                plugins: ['flow-react-proptypes', ['@babel/transform-runtime', { useESModules: true }]],
+                plugins: ['flow-react-proptypes', '@babel/transform-runtime'],
             }),
             nodeResolve(),
             commonjs(),
             copy({
                 'src/style.css': 'dist/style.css',
             }),
+        ],
+    },
+
+    {
+        input,
+        output: {
+            file: pkg.module,
+            format: 'esm',
+        },
+        external,
+        plugins: [
+            babel({
+                runtimeHelpers: true,
+                plugins: ['flow-react-proptypes', ['@babel/transform-runtime', { useESModules: true }]],
+            }),
+            nodeResolve(),
+            commonjs(),
         ],
     },
 ];

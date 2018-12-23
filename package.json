@@ -1,11 +1,9 @@
 {
     "name": "react-vt-tree",
-    "version": "0.2.4",
+    "version": "0.2.5",
     "description": "...",
     "author": "Avin Grape <carcinogen75@gmail.com> (https://github.com/avin/)",
-    "contributors": [
-        "Avin Grape <carcinogen75@gmail.com> (https://github.com/avin/)"
-    ],
+    "contributors": ["Avin Grape <carcinogen75@gmail.com> (https://github.com/avin/)"],
     "license": "MIT",
     "homepage": "https://github.com/avin/react-vt-tree",
     "repository": {
@@ -18,19 +16,10 @@
     "engines": {
         "node": ">8.0.0"
     },
-    "keywords": [
-        "react",
-        "reactjs",
-        "tree",
-        "virtualized",
-        "nodes"
-    ],
+    "keywords": ["react", "reactjs", "tree", "virtualized", "nodes"],
+    "main": "dist/index.cjs.js",
     "module": "dist/index.esm.js",
-    "files": [
-        "dist",
-        "src/*.js",
-        "README.adoc"
-    ],
+    "files": ["dist", "src/*.js", "README.adoc"],
     "scripts": {
         "build": "rimraf dist && mkdir dist && yarn build:flow && yarn build:source",
         "build:demo": "build-storybook -o demo",
@@ -55,10 +44,7 @@
         }
     },
     "lint-staged": {
-        "{website,src}/**/*.{js,json,css}": [
-            "prettier --write",
-            "git add"
-        ],
+        "{website,src}/**/*.{js,json,css}": ["prettier --write", "git add"],
         "**/*.js": "eslint --max-warnings 0"
     },
     "dependencies": {
