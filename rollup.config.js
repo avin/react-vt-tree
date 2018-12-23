@@ -1,11 +1,12 @@
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import nodeResolve from 'rollup-plugin-node-resolve';
-import external from 'rollup-plugin-peer-deps-external';
 import copy from 'rollup-plugin-copy';
 import pkg from './package.json';
 
 const input = './src/index.js';
+
+const external = id => !id.startsWith('.') && !id.startsWith('/');
 
 export default [
     {
