@@ -14,5 +14,9 @@ function generateNodes(depth) {
 
 const nodes = generateNodes(0);
 
-export const count = nounce - 1;
+const count = nounce - 1;
+
 export default nodes;
+export {
+    count
+}
